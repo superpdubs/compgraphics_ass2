@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import com.jogamp.newt.event.KeyEvent;
-import com.jogamp.newt.event.KeyListener;
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
 import com.jogamp.opengl.GL;
@@ -27,7 +25,7 @@ import unsw.graphics.geometry.TriangleMesh;
  *
  * @author malcolmr
  */
-public class World extends Application3D implements MouseListener, KeyListener {
+public class World extends Application3D implements MouseListener {
 
     private Terrain terrain;
     
@@ -48,7 +46,7 @@ public class World extends Application3D implements MouseListener, KeyListener {
         this.terrain = terrain;
    
         this.camera = new Camera(this);
-        useCamera = false;
+        useCamera = true;
     }
    
     /**
@@ -82,6 +80,7 @@ public class World extends Application3D implements MouseListener, KeyListener {
         Shader.setColor(gl, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
         Shader.setColor(gl, "specularCoeff", new Color(0.8f, 0.8f, 0.8f));
         Shader.setFloat(gl, "phongExp", 8f);
+        Boolean useCamera = true;
         
         CoordFrame3D frame;
 
@@ -98,14 +97,13 @@ public class World extends Application3D implements MouseListener, KeyListener {
 //            camera.setView(gl);
 //        }
         
-        // Translate terrain into visible position
         frame = CoordFrame3D.identity()
-                .translate(-2, 0.0f, -20f)
+                .translate(0, 0.0f, 0.0f)
                 .rotateX(rotateX)
                 .rotateY(rotateY)
                 .scale(1.0f, 1.0f, 1.0f);
         
-        Shader.setPenColor(gl, Color.GREEN);
+        Shader.setPenColor(gl, Color.WHITE);
         terrain.drawTerrain(gl, frame);
 	}
 
@@ -175,16 +173,4 @@ public class World extends Application3D implements MouseListener, KeyListener {
     public void mouseWheelMoved(MouseEvent e) { 
     	useCamera = false;
     }
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		System.out.println("HelloWorld");
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }
