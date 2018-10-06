@@ -81,21 +81,28 @@ public class World extends Application3D implements MouseListener {
         Shader.setColor(gl, "specularCoeff", new Color(0.8f, 0.8f, 0.8f));
         Shader.setFloat(gl, "phongExp", 8f);
         Boolean useCamera = true;
+        
+        CoordFrame3D frame;
 
-        CoordFrame3D frame = CoordFrame3D.identity()
-                .translate(0, 0.0f, 0.0f)
-                .rotateX(rotateX)
-                .rotateY(rotateY)
-                .scale(1.0f, 1.0f, 1.0f);
+        if (useCamera) {
+            camera.setView(gl);
+        }
 
+
+//		Jie Implementation
 //        Point3D cameraPos = camera.transformPoint(new Point3D(0, 0, -1));
-//
 //        if (cameraPos.getX() >= 0 && Math.round(cameraPos.getX()) < terrain.getWidth() - 1 && cameraPos.getZ() >= 0 && Math.round(cameraPos.getZ()) < terrain.getDepth() - 1) {
 //            camera.setView(gl);
 //        } else {
 //            camera.setView(gl);
 //        }
-
+        
+        frame = CoordFrame3D.identity()
+                .translate(0, 0.0f, 0.0f)
+                .rotateX(rotateX)
+                .rotateY(rotateY)
+                .scale(1.0f, 1.0f, 1.0f);
+        
         Shader.setPenColor(gl, Color.WHITE);
         terrain.drawTerrain(gl, frame);
 	}
@@ -162,5 +169,7 @@ public class World extends Application3D implements MouseListener {
     public void mouseReleased(MouseEvent e) { }
 
     @Override
-    public void mouseWheelMoved(MouseEvent e) { }
+    public void mouseWheelMoved(MouseEvent e) { 
+    	useCamera = false;
+    }
 }
