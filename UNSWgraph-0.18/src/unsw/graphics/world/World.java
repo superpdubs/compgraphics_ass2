@@ -113,17 +113,12 @@ public class World extends Application3D implements MouseListener {
 
 	@Override
 	public void init(GL3 gl) {
-		super.init(gl);
-		
-		terrain.initTerrain(gl);
-		texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
-		
-		
+	
 		super.init(gl);
         terrain.initTerrain(gl);
 
        //gl.glPolygonMode(GL3.GL_FRONT_AND_BACK, GL3.GL_LINE);
-        texture = new Texture(gl, "res/textures/rock.bmp", "bmp", false);
+        texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
         getWindow().addKeyListener(camera);
         getWindow().addMouseListener(this);
         if (USE_LIGHTING) {
