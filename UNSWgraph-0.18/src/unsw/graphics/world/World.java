@@ -44,6 +44,9 @@ public class World extends Application3D implements MouseListener {
     	super("Assignment 2", 800, 600);
         this.terrain = terrain;
    
+        this.camera = new Camera(this);
+        useCamera = true;
+        
     }
    
     /**
@@ -85,13 +88,13 @@ public class World extends Application3D implements MouseListener {
                 .rotateY(rotateY)
                 .scale(1.0f, 1.0f, 1.0f);
 
-        Point3D cameraPos = camera.transformPoint(new Point3D(0, 0, -1));
-
-        if (cameraPos.getX() >= 0 && Math.round(cameraPos.getX()) < terrain.getWidth() - 1 && cameraPos.getZ() >= 0 && Math.round(cameraPos.getZ()) < terrain.getDepth() - 1) {
-            camera.setView(gl,  terrain.altitude(cameraPos.getX(), cameraPos.getZ()));
-        } else {
-            camera.setView(gl, 0);
-        }
+//        Point3D cameraPos = camera.transformPoint(new Point3D(0, 0, -1));
+//
+//        if (cameraPos.getX() >= 0 && Math.round(cameraPos.getX()) < terrain.getWidth() - 1 && cameraPos.getZ() >= 0 && Math.round(cameraPos.getZ()) < terrain.getDepth() - 1) {
+//            camera.setView(gl);
+//        } else {
+//            camera.setView(gl);
+//        }
 
         Shader.setPenColor(gl, Color.WHITE);
         terrain.drawTerrain(gl, frame);
