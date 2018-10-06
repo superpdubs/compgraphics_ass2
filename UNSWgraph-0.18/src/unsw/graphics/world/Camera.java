@@ -71,7 +71,7 @@ public class Camera implements KeyListener {
         case KeyEvent.VK_DOWN:
         	newX = myPos.getX() + (float) Math.sin(Math.toRadians(myAngle));
         	newZ = myPos.getZ() + (float) Math.cos(Math.toRadians(myAngle));
-        	newY = myWorld.altitude(newX, newZ);
+        	newY = myWorld.getTerrain().altitude(newX, newZ);
         	
             myPos = new Point3D(newX, newY, newZ);
             System.out.println("Moving Back");
@@ -80,7 +80,7 @@ public class Camera implements KeyListener {
         case KeyEvent.VK_UP:
         	newX = myPos.getX() - (float) Math.sin(Math.toRadians(myAngle));
         	newZ = myPos.getZ() - (float) Math.cos(Math.toRadians(myAngle));
-        	newY = myWorld.altitude(newX, newZ);
+        	newY = myWorld.getTerrain().altitude(newX, newZ);
         	
             myPos = new Point3D(newX, newY, newZ);
             System.out.println("Moving Forward");

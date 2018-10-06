@@ -100,7 +100,11 @@ public class World extends Application3D implements MouseListener {
         terrain.drawTerrain(gl, frame);
 	}
 
-	@Override
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    @Override
 	public void destroy(GL3 gl) {
 		super.destroy(gl);
 		
