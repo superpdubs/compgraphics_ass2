@@ -131,7 +131,7 @@ public class World extends Application3D implements MouseListener {
         Shader.setProjMatrix(gl, Matrix4.perspective(60, width/(float)height, 1, 100));
 	}
 	
-
+	// Mouse movement for debug purposes
     @Override
     public void mouseDragged(MouseEvent e) {
         Point2D p = new Point2D(e.getX(), e.getY());
