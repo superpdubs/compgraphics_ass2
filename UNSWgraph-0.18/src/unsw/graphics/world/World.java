@@ -39,6 +39,7 @@ public class World extends Application3D implements MouseListener {
     private TriangleMesh model;
     private Texture texture;
     
+    private boolean useCamera;    
 
     public World(Terrain terrain){
     	super("Assignment 2", 800, 600);
@@ -46,7 +47,6 @@ public class World extends Application3D implements MouseListener {
    
         this.camera = new Camera(this);
         useCamera = true;
-        
     }
    
     /**
