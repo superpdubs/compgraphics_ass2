@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.KeyListener;
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
 import com.jogamp.opengl.GL;
@@ -25,7 +27,7 @@ import unsw.graphics.geometry.TriangleMesh;
  *
  * @author malcolmr
  */
-public class World extends Application3D implements MouseListener {
+public class World extends Application3D implements MouseListener, KeyListener {
 
     private Terrain terrain;
     
@@ -46,7 +48,7 @@ public class World extends Application3D implements MouseListener {
         this.terrain = terrain;
    
         this.camera = new Camera(this);
-        useCamera = true;
+        useCamera = false;
     }
    
     /**
@@ -80,7 +82,6 @@ public class World extends Application3D implements MouseListener {
         Shader.setColor(gl, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
         Shader.setColor(gl, "specularCoeff", new Color(0.8f, 0.8f, 0.8f));
         Shader.setFloat(gl, "phongExp", 8f);
-        Boolean useCamera = true;
         
         CoordFrame3D frame;
 
@@ -97,13 +98,14 @@ public class World extends Application3D implements MouseListener {
 //            camera.setView(gl);
 //        }
         
+        // Translate terrain into visible position
         frame = CoordFrame3D.identity()
-                .translate(0, 0.0f, 0.0f)
+                .translate(-2, 0.0f, -20f)
                 .rotateX(rotateX)
                 .rotateY(rotateY)
                 .scale(1.0f, 1.0f, 1.0f);
         
-        Shader.setPenColor(gl, Color.WHITE);
+        Shader.setPenColor(gl, Color.GREEN);
         terrain.drawTerrain(gl, frame);
 	}
 
@@ -173,4 +175,16 @@ public class World extends Application3D implements MouseListener {
     public void mouseWheelMoved(MouseEvent e) { 
     	useCamera = false;
     }
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println("HelloWorld");
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

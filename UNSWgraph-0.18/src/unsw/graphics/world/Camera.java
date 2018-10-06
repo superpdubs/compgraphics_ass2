@@ -33,12 +33,6 @@ public class Camera implements KeyListener {
         myScale = 1;
         myWorld = parentWorld;
     }
-    
-    public void draw(GL3 gl, CoordFrame3D frame) {
-        CoordFrame3D cameraFrame = frame.translate(myPos)
-                .rotateY(myAngle)
-                .scale(myScale, myScale, myScale);
-    }
 
     /**
      * Set the view transform
