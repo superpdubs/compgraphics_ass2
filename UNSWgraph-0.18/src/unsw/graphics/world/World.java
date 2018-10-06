@@ -8,6 +8,9 @@ import com.jogamp.opengl.GL3;
 import unsw.graphics.Application3D;
 import unsw.graphics.Matrix4;
 import unsw.graphics.Shader;
+import unsw.graphics.Texture;
+import unsw.graphics.geometry.Point2D;
+import unsw.graphics.geometry.TriangleMesh;
 
 
 
@@ -19,6 +22,17 @@ import unsw.graphics.Shader;
 public class World extends Application3D {
 
     private Terrain terrain;
+    
+    private Camera camera;
+    private Point2D myMousePoint = null;
+    private float rotateX = 0;
+    private float rotateY = 0;
+    private static final int ROTATION_SCALE = 1;
+    private static final boolean USE_LIGHTING = true;
+
+    private TriangleMesh model;
+    private Texture texture;
+    
 
     public World(Terrain terrain) {
     	super("Assignment 2", 800, 600);
