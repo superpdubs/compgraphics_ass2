@@ -246,7 +246,9 @@ public class Terrain {
     public void drawTerrain(GL3 gl, CoordFrame3D frame) {
         this.meshes.draw(gl, frame);
         for (Tree t: trees) {
-            Shader.setPenColor(gl, Color.BLACK);
+//            Shader.setPenColor(gl, Color.RED);
+            Shader.setPenColor(gl, new Color(1f, 0.0f, 0.0f));
+            
            // System.out.println(t.getPosition());
             t.getTreeModel().draw(gl, frame.translate(t.getPosition().getX(), t.getPosition().getY(), t.getPosition().getZ()).scale(0.2f, 0.2f, 0.2f));
         }

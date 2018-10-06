@@ -117,7 +117,7 @@ public class World extends Application3D implements MouseListener {
 		super.init(gl);
         terrain.initTerrain(gl);
 
-       //gl.glPolygonMode(GL3.GL_FRONT_AND_BACK, GL3.GL_LINE);
+//       gl.glPolygonMode(GL3.GL_FRONT_AND_BACK, GL3.GL_LINE);
         texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
         getWindow().addKeyListener(camera);
         getWindow().addMouseListener(this);
@@ -160,9 +160,9 @@ public class World extends Application3D implements MouseListener {
         
         // Set the material properties
         Shader.setColor(gl, "ambientCoeff", Color.WHITE);
-        Shader.setColor(gl, "diffuseCoeff", Color.WHITE);
-        Shader.setColor(gl, "specularCoeff", new Color(0.7f, 0.7f, 0.7f));
-        Shader.setFloat(gl, "phongExp", 16f);
+        Shader.setColor(gl, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
+        Shader.setColor(gl, "specularCoeff", new Color(0.6f, 0.6f, 0.6f));
+        Shader.setFloat(gl, "phongExp", 8f);
     }
     
 
