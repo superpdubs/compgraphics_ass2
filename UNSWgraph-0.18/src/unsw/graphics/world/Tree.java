@@ -13,7 +13,7 @@ public class Tree {
     private Point3D position;
     private TriangleMesh treeModel;
     public Tree(float x, float y, float z) {
-        position = new Point3D(x, y, z);
+        position = new Point3D(x, y+1, z+0.1f);
         try {
             treeModel = new TriangleMesh("res/models/tree.ply", true, true);
         } catch (Exception e) {

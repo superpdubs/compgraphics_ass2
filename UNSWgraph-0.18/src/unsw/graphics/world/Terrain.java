@@ -104,73 +104,73 @@ public class Terrain {
      * @return
      */
     public float altitude(float x, float z) {
-        float altitude = 0;
-
+//        float altitude = 0;
+//
         // Group Version
     	if (x < 0 || x > (width - 1) || z < 0 || z > (depth - 1)) {
     		return 0;
     	}
-    	
-        double xPoint = x;
-        double zPoint = z;
-        
-        double xLeft = Math.floor(xPoint);
-        double xRight =  Math.ceil(xPoint);
-        
-        double zLeft = Math.floor(zPoint);
-        double zRight = Math.ceil(zPoint);
-        
-        double altLeftRight = altitudes[(int) xLeft][(int) zRight];
-        double altLeftLeft = altitudes[(int) xLeft][(int) zLeft];
-        
-        double altRightLeft = altitudes[(int) xRight][(int) zLeft];
-        double altRightRight = altitudes[(int) xRight][(int) zRight];
-        
-        double altLeft = (zPoint - zRight) / (zLeft - zRight) * (altLeftLeft - altLeftRight) + altLeftRight;
-        double altRight = (zPoint - zRight) / (zLeft - zRight) * (altRightLeft - altRightRight) + altRightRight;
-        
-        altitude = (float) ((xPoint - xRight) / (xLeft - xRight) * (altLeft - altRight) + altRight);
-        		
-        return altitude;
+//    	
+//        double xPoint = x;
+//        double zPoint = z;
+//        
+//        double xLeft = Math.floor(xPoint);
+//        double xRight =  Math.ceil(xPoint);
+//        
+//        double zLeft = Math.floor(zPoint);
+//        double zRight = Math.ceil(zPoint);
+//        
+//        double altLeftRight = altitudes[(int) xLeft][(int) zRight];
+//        double altLeftLeft = altitudes[(int) xLeft][(int) zLeft];
+//        
+//        double altRightLeft = altitudes[(int) xRight][(int) zLeft];
+//        double altRightRight = altitudes[(int) xRight][(int) zRight];
+//        
+//        double altLeft = (zPoint - zRight) / (zLeft - zRight) * (altLeftLeft - altLeftRight) + altLeftRight;
+//        double altRight = (zPoint - zRight) / (zLeft - zRight) * (altRightLeft - altRightRight) + altRightRight;
+//        
+//        altitude = (float) ((xPoint - xRight) / (xLeft - xRight) * (altLeft - altRight) + altRight);
+//        		
+//        return altitude;
         
         // Jie Version
-//        
-//        float altitudeZ = 0;
-//        float lowerX = (float) Math.floor(x);
-//        float upperX = (float) Math.ceil(x);
-//        float lowerZ= (float) Math.floor(z);
-//        float upperZ = (float) Math.ceil(z);
-//        float diff = ((x - lowerX) * (lowerZ - upperZ)) - ((z - upperZ)* (upperX - lowerX));
-//        if (upperX - lowerX == 0 && upperZ - lowerZ == 0) return altitudes[(int) lowerX][(int) upperZ];
-//        if (upperX - lowerX == 0) {
-//            return ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ) * altitudes[(int) lowerX][(int) lowerZ]);
-//        }
-//        if (upperZ - lowerZ == 0) {
-//            return (((x - lowerX)/(upperX - lowerX)) * altitudes[(int) upperX][(int) lowerZ])  + (((upperX - x)/(upperX - lowerX)) * altitudes[(int) lowerX][(int) lowerZ]);
-//        }
-//        if (diff <= 0) {
-//            float polatedlowerX =  ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * lowerX;
-//            float polatedupperX = ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
-//
-//            float polatedLowerZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) lowerZ];
-//            float polatedUpperZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
-//
-//            altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperZ)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerZ);
-//
-//            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + x + " " + z + "yoyoyoyoyo:" + altitudeZ);
-//        } else {
-//            float polatedupperX =  ((z - lowerZ)/(upperZ - lowerZ)) * upperX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
-//            float polatedlowerX = ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
-//
-//            float polatedUpperZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
-//            float polatedLowerZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
-//
-//            altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperZ)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerZ);
-//
-//            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + (z - lowerZ) + " " + (upperZ - z) + "x: " +  x + "yoyoyoyoyo:" + altitudeZ);
-//        }
-//
-//        return altitudeZ;
+        
+        float altitudeZ = 0;
+        float lowerX = (float) Math.floor(x);
+        float upperX = (float) Math.ceil(x);
+        float lowerZ= (float) Math.floor(z);
+        float upperZ = (float) Math.ceil(z);
+        float diff = ((x - lowerX) * (lowerZ - upperZ)) - ((z - upperZ)* (upperX - lowerX));
+        if (upperX - lowerX == 0 && upperZ - lowerZ == 0) return altitudes[(int) lowerX][(int) upperZ];
+        if (upperX - lowerX == 0) {
+            return ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ) * altitudes[(int) lowerX][(int) lowerZ]);
+        }
+        if (upperZ - lowerZ == 0) {
+            return (((x - lowerX)/(upperX - lowerX)) * altitudes[(int) upperX][(int) lowerZ])  + (((upperX - x)/(upperX - lowerX)) * altitudes[(int) lowerX][(int) lowerZ]);
+        }
+        if (diff <= 0) {
+            float polatedlowerX =  ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * lowerX;
+            float polatedupperX = ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
+
+            float polatedLowerZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) lowerZ];
+            float polatedUpperZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
+
+            altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperZ)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerZ);
+
+            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + x + " " + z + "yoyoyoyoyo:" + altitudeZ);
+        } else {
+            float polatedupperX =  ((z - lowerZ)/(upperZ - lowerZ)) * upperX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
+            float polatedlowerX = ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
+
+            float polatedUpperZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
+            float polatedLowerZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
+
+            altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperZ)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerZ);
+
+            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + (z - lowerZ) + " " + (upperZ - z) + "x: " +  x + "yoyoyoyoyo:" + altitudeZ);
+        }
+
+        return altitudeZ;
         
     }
 

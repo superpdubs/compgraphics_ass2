@@ -161,7 +161,7 @@ public class World extends Application3D implements MouseListener {
         // Set the material properties
         Shader.setColor(gl, "ambientCoeff", Color.WHITE);
         Shader.setColor(gl, "diffuseCoeff", Color.WHITE);
-        Shader.setColor(gl, "specularCoeff", new Color(0.8f, 0.8f, 0.8f));
+        Shader.setColor(gl, "specularCoeff", new Color(0.7f, 0.7f, 0.7f));
         Shader.setFloat(gl, "phongExp", 16f);
     }
     
