@@ -121,7 +121,8 @@ public class World extends Application3D implements MouseListener {
 	public void init(GL3 gl) {
 		super.init(gl);
 		
-		
+		terrain.initTerrain(gl);
+		texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
 	}
 
 	@Override
