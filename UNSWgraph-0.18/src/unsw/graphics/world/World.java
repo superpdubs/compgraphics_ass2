@@ -131,7 +131,7 @@ public class World extends Application3D implements MouseListener {
 	@Override
 	public void reshape(GL3 gl, int width, int height) {
         super.reshape(gl, width, height);
-        Shader.setProjMatrix(gl, Matrix4.perspective(60, width/(float)height, 1, 100));
+        Shader.setProjMatrix(gl, Matrix4.perspective(60, width/(float)height, 0.05f, 100));
 	}
 	
 	// Mouse movement for debug purposes

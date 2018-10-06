@@ -28,7 +28,7 @@ public class Camera implements KeyListener {
     private World myWorld;
 
     public Camera(World parentWorld) {
-        myPos = new Point3D(3, 0, 10);
+        myPos = new Point3D(3, 1, 10);
     	myAngle = 0;
         myScale = 1;
         myWorld = parentWorld;
