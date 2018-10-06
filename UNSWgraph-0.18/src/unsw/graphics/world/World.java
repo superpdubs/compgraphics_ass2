@@ -69,18 +69,12 @@ public class World extends Application3D implements MouseListener {
         gl.glActiveTexture(GL.GL_TEXTURE0);
         gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getId());
 
-        // Set the lighting properties
+        if (this.terrain.getSunlight() != null) {
+        	this.setLighting(gl);
+        }        
 
-        Shader.setPoint3D(gl, "lightDir", new Point3D(-1 , 0, 0));
-        Shader.setColor(gl, "lightIntensity", Color.WHITE);
-        Shader.setColor(gl, "ambientIntensity", new Color(0.2f, 0.2f, 0.2f));
-
-        // Set the material properties
-        Shader.setColor(gl, "ambientCoeff", Color.WHITE);
-        Shader.setColor(gl, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
-        Shader.setColor(gl, "specularCoeff", new Color(0.8f, 0.8f, 0.8f));
-        Shader.setFloat(gl, "phongExp", 8f);
         
+        Boolean useCamera = true;        
         CoordFrame3D frame;
 
         if (useCamera) {
@@ -123,6 +117,20 @@ public class World extends Application3D implements MouseListener {
 		
 		terrain.initTerrain(gl);
 		texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
+		
+		
+		super.init(gl);
+        terrain.initTerrain(gl);
+
+       //gl.glPolygonMode(GL3.GL_FRONT_AND_BACK, GL3.GL_LINE);
+        texture = new Texture(gl, "res/textures/rock.bmp", "bmp", false);
+        getWindow().addKeyListener(camera);
+        getWindow().addMouseListener(this);
+        if (USE_LIGHTING) {
+            Shader shader = new Shader(gl, "shaders/vertex_tex_phong.glsl",
+                    "shaders/fragment_tex_phong_mod.glsl");
+            shader.use(gl);
+        }
 	}
 
 	@Override
@@ -148,6 +156,20 @@ public class World extends Application3D implements MouseListener {
         }
         myMousePoint = p;
     }
+    
+    public void setLighting(GL3 gl) {
+        //Implement Lighting/Sunlight
+        Shader.setPoint3D(gl, "lightPos", this.terrain.getSunlight().asPoint3D());
+        Shader.setColor(gl, "lightIntensity", Color.WHITE);
+        Shader.setColor(gl, "ambientIntensity", new Color(0.2f, 0.2f, 0.2f));
+        
+        // Set the material properties
+        Shader.setColor(gl, "ambientCoeff", Color.WHITE);
+        Shader.setColor(gl, "diffuseCoeff", Color.WHITE);
+        Shader.setColor(gl, "specularCoeff", new Color(0.8f, 0.8f, 0.8f));
+        Shader.setFloat(gl, "phongExp", 16f);
+    }
+    
 
     @Override
     public void mouseMoved(MouseEvent e) {
