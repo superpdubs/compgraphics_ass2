@@ -46,7 +46,7 @@ public class World extends Application3D implements MouseListener {
         this.terrain = terrain;
    
         this.camera = new Camera(this);
-        useCamera = true;
+        useCamera = false;
     }
    
     /**
@@ -80,7 +80,6 @@ public class World extends Application3D implements MouseListener {
         Shader.setColor(gl, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
         Shader.setColor(gl, "specularCoeff", new Color(0.8f, 0.8f, 0.8f));
         Shader.setFloat(gl, "phongExp", 8f);
-        Boolean useCamera = true;
         
         CoordFrame3D frame;
 
@@ -97,13 +96,14 @@ public class World extends Application3D implements MouseListener {
 //            camera.setView(gl);
 //        }
         
+        // Translate terrain into visible position
         frame = CoordFrame3D.identity()
-                .translate(0, 0.0f, 0.0f)
+                .translate(-2, 0.0f, -20f)
                 .rotateX(rotateX)
                 .rotateY(rotateY)
                 .scale(1.0f, 1.0f, 1.0f);
         
-        Shader.setPenColor(gl, Color.WHITE);
+        Shader.setPenColor(gl, Color.GREEN);
         terrain.drawTerrain(gl, frame);
 	}
 
