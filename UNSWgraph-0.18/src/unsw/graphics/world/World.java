@@ -46,7 +46,7 @@ public class World extends Application3D implements MouseListener {
         this.terrain = terrain;
    
         this.camera = new Camera(this);
-        useCamera = false;
+        useCamera = true;
     }
    
     /**
@@ -72,13 +72,17 @@ public class World extends Application3D implements MouseListener {
         if (this.terrain.getSunlight() != null) {
         	this.setLighting(gl);
         }        
-
         
-        Boolean useCamera = true;        
-        CoordFrame3D frame;
+        CoordFrame3D frame = CoordFrame3D.identity();
 
         if (useCamera) {
             camera.setView(gl);
+        } else {
+            frame = CoordFrame3D.identity()
+                    .translate(-2, 0.0f, -20f)
+                    .rotateX(rotateX)
+                    .rotateY(rotateY)
+                    .scale(1.0f, 1.0f, 1.0f);
         }
 
 
@@ -91,11 +95,7 @@ public class World extends Application3D implements MouseListener {
 //        }
         
         // Translate terrain into visible position
-        frame = CoordFrame3D.identity()
-                .translate(-2, 0.0f, -20f)
-                .rotateX(rotateX)
-                .rotateY(rotateY)
-                .scale(1.0f, 1.0f, 1.0f);
+
         
         Shader.setPenColor(gl, Color.GREEN);
         terrain.drawTerrain(gl, frame);
@@ -188,6 +188,6 @@ public class World extends Application3D implements MouseListener {
 
     @Override
     public void mouseWheelMoved(MouseEvent e) { 
-    	useCamera = false;
+    	useCamera ^= true;
     }
 }
