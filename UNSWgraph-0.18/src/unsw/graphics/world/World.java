@@ -126,6 +126,8 @@ public class World extends Application3D implements MouseListener {
                     "shaders/fragment_tex_phong_mod.glsl");
             shader.use(gl);
         }
+        
+        camera.init(gl);
 	}
 
 	@Override
