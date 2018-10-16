@@ -60,13 +60,13 @@ public class Light implements KeyListener{
         //Implement Lighting/Sunlight
         Shader.setPoint3D(this.targetGL, "lightPos", this.lightPosition);
         Shader.setColor(this.targetGL, "lightIntensity", Color.WHITE);
-        Shader.setColor(this.targetGL, "ambientIntensity", new Color(0.2f, 0.2f, 0.2f));
-        
+		Shader.setColor(this.targetGL, "ambientIntensity", new Color(0.2f, 0.2f, 0.2f));
+
         // Set the material properties
         Shader.setColor(this.targetGL, "ambientCoeff", Color.WHITE);
         Shader.setColor(this.targetGL, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
         Shader.setColor(this.targetGL, "specularCoeff", new Color(0.6f, 0.6f, 0.6f));
-        Shader.setFloat(this.targetGL, "phongExp", 12f);
+        Shader.setFloat(this.targetGL, "phongExp", 8f);
 	}
 	
 	public void setNightlight() {
@@ -77,12 +77,12 @@ public class Light implements KeyListener{
 		Shader.setPoint3D(this.targetGL, "lightPos", this.cameraPosition);
         Shader.setColor(this.targetGL, "lightIntensity", Color.WHITE);
         Shader.setColor(this.targetGL, "ambientIntensity", new Color(0.1f, 0.1f, 0.1f));
-        
+		Shader.setFloat(this.targetGL, "k", 0.5f);
         // Set the material properties
         Shader.setColor(this.targetGL, "ambientCoeff", new Color(0,0,200));
         Shader.setColor(this.targetGL, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
         Shader.setColor(this.targetGL, "specularCoeff", new Color(0.1f, 0.1f, 0.1f));
-        Shader.setFloat(this.targetGL, "phongExp", 32f);
+        Shader.setFloat(this.targetGL, "phongExp", 8f);
 	}
 	
 	public void setCameraPosition(Point3D position) {
@@ -121,3 +121,4 @@ public class Light implements KeyListener{
 		
 	}
 }
+
