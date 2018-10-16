@@ -50,9 +50,11 @@ public class Light implements KeyListener{
 		
 	}
 	
-//	private buildShaders 
+	public boolean getToggle() {
+		return toggleLight;
+	}
 	
-	private void setSunlight() {
+	public void setSunlight() {
         //Implement Lighting/Sunlight
         Shader.setPoint3D(this.targetGL, "lightPos", this.lightPosition);
         Shader.setColor(this.targetGL, "lightIntensity", Color.WHITE);
@@ -65,16 +67,16 @@ public class Light implements KeyListener{
         Shader.setFloat(this.targetGL, "phongExp", 8f);
 	}
 	
-	private void setNightlight() {
+	public void setNightlight() {
         //Implement Lighting/Nightlight
         Shader.setPoint3D(this.targetGL, "lightPos", new Point3D(3,3,0));
         Shader.setColor(this.targetGL, "lightIntensity", Color.WHITE);
         Shader.setColor(this.targetGL, "ambientIntensity", new Color(0.1f, 0.1f, 0.1f));
         
         // Set the material properties
-        Shader.setColor(this.targetGL, "ambientCoeff", new Color(0,0,205));
+        Shader.setColor(this.targetGL, "ambientCoeff", new Color(0,0,200));
         Shader.setColor(this.targetGL, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
-        Shader.setColor(this.targetGL, "specularCoeff", new Color(0.6f, 0.6f, 0.6f));
+        Shader.setColor(this.targetGL, "specularCoeff", new Color(0.1f, 0.1f, 0.1f));
         Shader.setFloat(this.targetGL, "phongExp", 8f);
 	}
 	
@@ -86,12 +88,10 @@ public class Light implements KeyListener{
         	System.out.println("open bracket");
         	if (toggleLight == false) {
         		toggleLight = !toggleLight;
-        		setSunlight();
         		System.out.println("change to day");
         	} else if (toggleLight == true){
             	toggleLight = !toggleLight;
             	System.out.println("change to night");
-                Shader.setColor(this.targetGL, "ambientCoeff", new Color(0,0,205));
             }
             break;
             

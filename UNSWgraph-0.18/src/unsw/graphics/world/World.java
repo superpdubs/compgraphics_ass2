@@ -86,6 +86,12 @@ public class World extends Application3D implements MouseListener {
        
         Shader.setPenColor(gl, Color.GREEN);
         terrain.drawTerrain(gl, frame);
+        
+        if (modelLight.getToggle()) {
+        	modelLight.setSunlight();
+        } else {
+        	modelLight.setNightlight();
+        }
 	}
 
     public Terrain getTerrain() {
@@ -107,10 +113,11 @@ public class World extends Application3D implements MouseListener {
         texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
         getWindow().addKeyListener(camera);
         getWindow().addMouseListener(this);
+    	getWindow().addKeyListener(modelLight);
+
         
         if (USE_LIGHTING && this.terrain.getSunlight() != null) {
         	modelLight = new Light(gl, 1 , this.terrain.getSunlight().asPoint3D());
-//        	Light testLight = new Light(gl, 2, this.terrain.getSunlight().asPoint3D());
         	getWindow().addKeyListener(modelLight);
         }
         
