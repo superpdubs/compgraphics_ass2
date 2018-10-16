@@ -78,6 +78,10 @@ public class Camera implements KeyListener {
     	player.drawCharacter(gl);
     }
 
+    public Point3D getPosition() {
+    	return this.myPos;
+    }
+    
     @Override
     public void keyPressed(KeyEvent e) {
     	float newX, newY, newZ;
