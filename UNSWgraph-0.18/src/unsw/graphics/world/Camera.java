@@ -83,16 +83,19 @@ public class Camera implements KeyListener {
     	float newX, newY, newZ;
     	
         switch(e.getKeyCode()) {
+        case KeyEvent.VK_A:
         case KeyEvent.VK_LEFT:
             myAngle += 5;
             player.addRotation(5);
             break;
             
+        case KeyEvent.VK_D:
         case KeyEvent.VK_RIGHT:
             myAngle -= 5;
             player.addRotation(-5);
             break;
 
+        case KeyEvent.VK_S:
         case KeyEvent.VK_DOWN:
         	newX = myPos.getX() + (float) Math.sin(Math.toRadians(myAngle));
         	newZ = myPos.getZ() + (float) Math.cos(Math.toRadians(myAngle));
@@ -103,6 +106,7 @@ public class Camera implements KeyListener {
             System.out.println("Moving Back");
             break;
 
+        case KeyEvent.VK_W:
         case KeyEvent.VK_UP:
         	newX = myPos.getX() - (float) Math.sin(Math.toRadians(myAngle));
         	newZ = myPos.getZ() - (float) Math.cos(Math.toRadians(myAngle));
