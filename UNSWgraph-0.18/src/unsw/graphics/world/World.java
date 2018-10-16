@@ -38,13 +38,14 @@ public class World extends Application3D implements MouseListener {
 
     private TriangleMesh model;
     private Texture texture;
+    private Light modelLight;
     
     private boolean useCamera;    
 
     public World(Terrain terrain){
     	super("Assignment 2", 800, 600);
         this.terrain = terrain;
-   
+        
         this.camera = new Camera(this);
         useCamera = true;
     }
@@ -69,9 +70,7 @@ public class World extends Application3D implements MouseListener {
         gl.glActiveTexture(GL.GL_TEXTURE0);
         gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getId());
 
-        if (this.terrain.getSunlight() != null) {
-        	this.setLighting(gl);
-        }        
+        
         
         CoordFrame3D frame = CoordFrame3D.identity();
 
@@ -84,19 +83,7 @@ public class World extends Application3D implements MouseListener {
                     .rotateY(rotateY)
                     .scale(1.0f, 1.0f, 1.0f);
         }
-
-
-//		Jie Implementation
-//        Point3D cameraPos = camera.transformPoint(new Point3D(0, 0, -1));
-//        if (cameraPos.getX() >= 0 && Math.round(cameraPos.getX()) < terrain.getWidth() - 1 && cameraPos.getZ() >= 0 && Math.round(cameraPos.getZ()) < terrain.getDepth() - 1) {
-//            camera.setView(gl);
-//        } else {
-//            camera.setView(gl);
-//        }
-        
-        // Translate terrain into visible position
-
-        
+       
         Shader.setPenColor(gl, Color.GREEN);
         terrain.drawTerrain(gl, frame);
 	}
@@ -117,14 +104,14 @@ public class World extends Application3D implements MouseListener {
 		super.init(gl);
         terrain.initTerrain(gl);
 
-//       gl.glPolygonMode(GL3.GL_FRONT_AND_BACK, GL3.GL_LINE);
         texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
         getWindow().addKeyListener(camera);
         getWindow().addMouseListener(this);
-        if (USE_LIGHTING) {
-            Shader shader = new Shader(gl, "shaders/vertex_tex_phong.glsl",
-                    "shaders/fragment_tex_phong_mod.glsl");
-            shader.use(gl);
+        
+        if (USE_LIGHTING && this.terrain.getSunlight() != null) {
+        	modelLight = new Light(gl, 1 , this.terrain.getSunlight().asPoint3D());
+//        	Light testLight = new Light(gl, 2, this.terrain.getSunlight().asPoint3D());
+        	getWindow().addKeyListener(modelLight);
         }
         
         camera.init(gl);
@@ -153,20 +140,6 @@ public class World extends Application3D implements MouseListener {
         }
         myMousePoint = p;
     }
-    
-    public void setLighting(GL3 gl) {
-        //Implement Lighting/Sunlight
-        Shader.setPoint3D(gl, "lightPos", this.terrain.getSunlight().asPoint3D());
-        Shader.setColor(gl, "lightIntensity", Color.WHITE);
-        Shader.setColor(gl, "ambientIntensity", new Color(0.2f, 0.2f, 0.2f));
-        
-        // Set the material properties
-        Shader.setColor(gl, "ambientCoeff", Color.WHITE);
-        Shader.setColor(gl, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
-        Shader.setColor(gl, "specularCoeff", new Color(0.6f, 0.6f, 0.6f));
-        Shader.setFloat(gl, "phongExp", 8f);
-    }
-    
 
     @Override
     public void mouseMoved(MouseEvent e) {
