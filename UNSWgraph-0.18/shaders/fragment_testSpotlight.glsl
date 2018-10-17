@@ -19,8 +19,7 @@ in vec3 m;
 
 void main()
 {
-    //float k = 0.5f;
-    vec3 s = normalize(view_matrix*vec4(lightPos,0) - viewPosition).xyz;
+    vec3 s = normalize(view_matrix*vec4(lightPos,1) - viewPosition).xyz;
 
     //The 3 values below should all be vec3 as they are RGB values
     vec3 ambient = ambientIntensity*ambientCoeff;
@@ -30,9 +29,6 @@ void main()
 
 
     float attenuation = 1.0 / (1.0 + k *pow(d, 2));
-
-
-
 
     vec3 intensity = ambient + attenuation*diffuse;
     
