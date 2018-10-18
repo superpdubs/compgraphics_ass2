@@ -91,12 +91,14 @@ public class Camera implements KeyListener {
         case KeyEvent.VK_LEFT:
             myAngle += 5;
             player.addRotation(5);
+            player.isMoving(0);
             break;
             
         case KeyEvent.VK_D:
         case KeyEvent.VK_RIGHT:
             myAngle -= 5;
             player.addRotation(-5);
+            player.isMoving(0);
             break;
 
         case KeyEvent.VK_S:
@@ -107,6 +109,8 @@ public class Camera implements KeyListener {
         	
             myPos = new Point3D(newX, newY, newZ);
             player.setPosition(new Point3D(newX, newY - 1, newZ));
+            player.isMoving(-1);
+            
             System.out.println("Moving Back");
             break;
 
@@ -118,6 +122,8 @@ public class Camera implements KeyListener {
         	
             myPos = new Point3D(newX, newY, newZ);
             player.setPosition(new Point3D(newX, newY - 1, newZ));
+            player.isMoving(1);
+            
             System.out.println("Moving Forward");
             break;
            
