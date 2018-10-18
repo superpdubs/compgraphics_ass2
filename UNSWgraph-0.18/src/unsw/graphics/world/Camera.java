@@ -75,7 +75,8 @@ public class Camera implements KeyListener {
 	        Shader.setViewMatrix(gl, viewFrame.getMatrix());
     		
     	}
-    	player.drawCharacter(gl);
+    	
+    	if (!FirstPersonCam) player.drawCharacter(gl);
     }
 
     public Point3D getPosition() {
