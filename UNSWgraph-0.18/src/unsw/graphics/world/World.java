@@ -78,14 +78,14 @@ public class World extends Application3D implements MouseListener {
         if (useCamera) {
             camera.setView(gl);
         } else {
-            frame = CoordFrame3D.identity()
-                    .translate(-2, 0.0f, -20f)
-                    .rotateX(rotateX)
-                    .rotateY(rotateY)
-                    .scale(1.0f, 1.0f, 1.0f);
+
         }
 
-
+        frame = CoordFrame3D.identity()
+                .translate(-2, 0.0f, -20f)
+                .rotateX(rotateX)
+                .rotateY(rotateY)
+                .scale(1.0f, 1.0f, 1.0f);
 //		Jie Implementation
 //        Point3D cameraPos = camera.transformPoint(new Point3D(0, 0, -1));
 //        if (cameraPos.getX() >= 0 && Math.round(cameraPos.getX()) < terrain.getWidth() - 1 && cameraPos.getZ() >= 0 && Math.round(cameraPos.getZ()) < terrain.getDepth() - 1) {

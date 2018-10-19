@@ -6,11 +6,14 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 
 import unsw.graphics.CoordFrame3D;
 import unsw.graphics.Shader;
+import unsw.graphics.Texture;
 import unsw.graphics.Vector3;
+import unsw.graphics.geometry.Line3D;
 import unsw.graphics.geometry.Point2D;
 import unsw.graphics.geometry.Point3D;
 import unsw.graphics.geometry.TriangleMesh;
@@ -196,7 +199,14 @@ public class Terrain {
      */
     public void addRoad(float width, List<Point2D> spine) {
         Road road = new Road(width, spine);
-        roads.add(road);        
+
+
+        float altitude = this.altitude(road.point(0).getX(), road.point(0).getY());
+        road.setAltitude(altitude);
+        road.makeRoadMesh();
+
+        System.out.println("sgfafas" + altitude);
+        roads.add(road);
     }
 
     public void makeTerrainMesh() {
@@ -241,17 +251,42 @@ public class Terrain {
         for (Tree t: trees) {
             t.getTreeModel().init(gl);
         }
+
+
+        for (Road r: roads) {
+            r.getRoadMesh().init(gl);
+        }
+
     }
 
     public void drawTerrain(GL3 gl, CoordFrame3D frame) {
+        Shader.setPenColor(gl, Color.GREEN);
         this.meshes.draw(gl, frame);
         for (Tree t: trees) {
 //            Shader.setPenColor(gl, Color.RED);
-            Shader.setPenColor(gl, new Color(1f, 0.0f, 0.0f));
+            //Shader.setPenColor(gl, new Color(1f, 0.0f, 0.0f));
             
            // System.out.println(t.getPosition());
             t.getTreeModel().draw(gl, frame.translate(t.getPosition().getX(), t.getPosition().getY(), t.getPosition().getZ()).scale(0.2f, 0.2f, 0.2f));
+
         }
+
+        Shader.setInt(gl, "tex", 0);
+        Texture texture = new Texture(gl, "res/textures/rock.bmp", "bmp", false);
+        gl.glActiveTexture(GL.GL_TEXTURE0);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getId());
+
+        Shader.setPenColor(gl, Color.WHITE);
+        //gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
+        //gl.glPolygonOffset(3.0f, 1.0f);
+        gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
+        gl.glPolygonOffset(-1.0f, -1.0f);
+        for (Road r: roads) {
+            r.getRoadMesh().draw(gl, frame);
+        }
+
+        gl.glDisable(GL.GL_POLYGON_OFFSET_FILL);
+        //gl.glDisable(GL.GL_POLYGON_OFFSET_FILL);
     }
 
     public int getDepth() {
