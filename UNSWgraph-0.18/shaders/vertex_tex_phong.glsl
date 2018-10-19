@@ -22,6 +22,8 @@ uniform mat4 proj_matrix;
 out vec4 viewPosition;
 out vec3 m;
 
+//out vec4 fragColor;
+
 out vec2 texCoordFrag;
 
 void main() {

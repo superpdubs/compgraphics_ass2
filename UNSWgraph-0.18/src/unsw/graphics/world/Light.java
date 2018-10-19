@@ -35,14 +35,19 @@ public class Light implements KeyListener{
 			case(1):
 //				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_tex_phong_mod.glsl");
 				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
+				//activeShader = new Shader(gl, "shaders/vertex_particle.glsl",
+				//		"shaders/fragment_particle.glsl");
+
 				activeShader.use(targetGL);
 				this.setSunlight();
 				this.toggleLight = true;
 				break;
 			case(2):
-//				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_tex_phong_mod.glsl");
-//				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_testSpotlight.glsl");
-				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
+				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_tex_phong_mod.glsl");
+				//activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_testSpotlight.glsl");
+				//activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
+				//activeShader = new Shader(gl, "shaders/vertex_particle.glsl",
+				//		"shaders/fragment_particle.glsl");
 				activeShader.use(targetGL);
 				this.setNightlight();
 				this.toggleLight = false;
@@ -93,6 +98,7 @@ public class Light implements KeyListener{
 	
 	public void setNightlight() {
         //Implement Lighting/Nightlight
+
         Shader.setPoint3D(this.targetGL, "envLightPos", this.lightPosition);
         Shader.setColor(this.targetGL, "envLightIntensity", Color.WHITE);
         Shader.setColor(this.targetGL, "envAmbientIntensity", new Color(0.1f, 0.1f, 0.1f));

@@ -23,6 +23,8 @@ uniform vec3 torchAmbientIntensity;
 uniform vec3 torchAmbientCoeff;
 uniform vec3 torchDiffuseCoeff;
 
+// out vec4 fragColor;
+
 uniform float k;
 
 

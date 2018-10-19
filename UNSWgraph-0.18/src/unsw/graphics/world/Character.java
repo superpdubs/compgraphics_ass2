@@ -67,14 +67,14 @@ public class Character {
         		frameNum = "" + i;
         	}
 	        try {
-            	String modelPath = "res/models/MadBunny/madbunny_walk" + frameNum + ".ply";
-	            walk.add(i, new TriangleMesh(modelPath, true, true));
+            	String modelPath = "res/models/bunny" +	 ".ply";
+	             walk.add(i, new TriangleMesh(modelPath, true, true));
 	        } catch (Exception e) {
 	        	System.out.println(walk.size());
 	            System.out.println("Exception occured loading character model");
 	        }
 	    }
-        
+        System.out.println("Its DONEEE");
         for (int n = animLength.get(4); n <= animLength.get(5); n++) {
         	String frameNum = "";
         	String modelPath = "";
@@ -86,10 +86,10 @@ public class Character {
         		frameNum = "" + i;
         	}
 	        try {
-            	modelPath = "res/models/MadBunny/madbunny_slash" + frameNum + ".ply";
-	            walk.add(n, new TriangleMesh(modelPath, true, true));
+            //	modelPath = "res/models/MadBunny/madbunny_slash" + frameNum + ".ply";
+	        //    walk.add(n, new TriangleMesh(modelPath, true, true));
 	        } catch (Exception e) {
-	            System.out.println("Exception occured loading character model");
+	        //    System.out.println("Exception occured loading character model");
 	        }
 	    }
     }

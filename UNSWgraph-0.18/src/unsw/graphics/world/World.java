@@ -28,7 +28,7 @@ import unsw.graphics.geometry.TriangleMesh;
 public class World extends Application3D implements MouseListener {
 
     private Terrain terrain;
-    
+    //private Rain RainSystem;
     private Camera camera;
     private Point2D myMousePoint = null;
     private float rotateX = 0;
@@ -45,9 +45,10 @@ public class World extends Application3D implements MouseListener {
     public World(Terrain terrain){
     	super("Assignment 2", 800, 600);
         this.terrain = terrain;
-        
+        //this.RainSystem = new Rain();
         this.camera = new Camera(this);
         useCamera = true;
+       // setBackground(Color.BLACK);
     }
    
     /**
@@ -94,6 +95,7 @@ public class World extends Application3D implements MouseListener {
         	modelLight.setCameraPosition(this.camera.getPosition());
         	modelLight.setNightlight();
         }
+       // RainSystem.display(gl);
 	}
 
     public Terrain getTerrain() {
@@ -111,7 +113,7 @@ public class World extends Application3D implements MouseListener {
 	
 		super.init(gl);
         terrain.initTerrain(gl);
-
+        //RainSystem.init(gl);
         texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
         getWindow().addKeyListener(camera);
         getWindow().addMouseListener(this);

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package unsw.graphics;
 
@@ -13,7 +13,7 @@ import unsw.graphics.geometry.Point3D;
 
 /**
  * A shader for use with OpenGL.
- * 
+ *
  * This class is used to load shaders into UNSWgraph. Note that for a shader to
  * work in this library, there a number of required variables. For 2D
  * applications, in the vertex shader there must be: 
@@ -25,7 +25,7 @@ import unsw.graphics.geometry.Point3D;
  *   - "uniform mat4 model_matrix"
  *   - "uniform mat4 view_matrix"
  *   - "uniform mat4 proj_matrix"
- * 
+ *
  * @author Robert Clifton-Everest
  *
  */
@@ -37,22 +37,27 @@ public class Shader {
      * The vertex position attribute for use with glAttribPointer.
      */
     public static final int POSITION = 0;
-    
+
     /**
      * The vertex normal attribute for use with glAttribPointer.
      */
     public static final int NORMAL = 1;
-    
+
     /**
      * The vertex texture coordinate attribute for use with glAttribPointer.
      */
     public static final int TEX_COORD = 2;
 
+    /**
+     * The color attribute for use with glAttribPointer.
+     */
+    public static final int COLOR = 3;
+
     private int id;
 
     /**
      * Construct a shader in the given OpenGL context.
-     * 
+     *
      * @param gl
      * @param vertex The file containing the vertex shader code.
      * @param fragment The file containing the fragment shader code.
@@ -77,26 +82,29 @@ public class Shader {
             throw new RuntimeException("Invalid shader program");
 
         id = shaderProgram.program();
-        
+
         gl.glBindAttribLocation(id, POSITION, "position");
         gl.glBindAttribLocation(id, NORMAL, "normal");
         gl.glBindAttribLocation(id, TEX_COORD, "texCoord");
-        
+        gl.glBindAttribLocation(id, COLOR, "color");
+
         shaderProgram.link(gl, System.err);
-        
+
         gl.glEnableVertexAttribArray(POSITION);
         if (gl.glGetAttribLocation(id, "normal") != -1)
             gl.glEnableVertexAttribArray(NORMAL);
         if (gl.glGetAttribLocation(id, "texCoord") != -1)
             gl.glEnableVertexAttribArray(TEX_COORD);
-        
+        if (gl.glGetAttribLocation(id, "color") != -1)
+            gl.glEnableVertexAttribArray(COLOR);
+
     }
 
     /**
      * "Use" this shader in the given context.
-     * 
+     *
      * This just calls glUseProgram() with this shader.
-     * 
+     *
      * @param gl
      */
     public void use(GL3 gl) {
@@ -105,7 +113,7 @@ public class Shader {
 
     /**
      * Destroy this shader, releasing its resources.
-     * 
+     *
      * This just calls glDeleteProgram().
      *
      * @param gl
@@ -116,7 +124,7 @@ public class Shader {
 
     /**
      * Get the ID OpenGL associates with this shader.
-     * 
+     *
      * @return
      */
     public int getId() {
@@ -125,7 +133,7 @@ public class Shader {
 
     /**
      * Sets the model matrix of the currently loaded shader.
-     * 
+     *
      * @param gl
      * @param mat
      */
@@ -138,7 +146,7 @@ public class Shader {
 
     /**
      * Sets the model matrix of the currently loaded shader.
-     * 
+     *
      * @param gl
      * @param mat
      */
@@ -151,7 +159,7 @@ public class Shader {
 
     /**
      * Sets the view matrix of the currently loaded shader.
-     * 
+     *
      * @param gl
      * @param mat
      */
@@ -164,7 +172,7 @@ public class Shader {
 
     /**
      * Sets the view matrix of the currently loaded shader.
-     * 
+     *
      * @param gl
      * @param mat
      */
@@ -177,7 +185,7 @@ public class Shader {
 
     /**
      * Sets the projection matrix of the currently loaded shader.
-     * 
+     *
      * @param gl
      * @param mat
      */
@@ -190,14 +198,14 @@ public class Shader {
 
     /**
      * Sets the pen color of the currently loaded shader.
-     * 
+     *
      * @param gl
      * @param color
      */
     public static void setPenColor(GL3 gl, Color color) {
         setColorWithAlpha(gl, "input_color", color);
     }
-    
+
     /**
      * Set an arbitrary uniform variable of type 'vec3' with the given
      * Point3D
@@ -211,7 +219,7 @@ public class Shader {
         int loc = gl.glGetUniformLocation(ids[0], var);
         gl.glUniform3f(loc, point3d.getX(), point3d.getY(), point3d.getZ());
     }
-    
+
     /**
      * Set an arbitrary uniform variable of type 'vec3' with the given
      * Color.
@@ -226,7 +234,7 @@ public class Shader {
         gl.glUniform3f(loc, color.getRed() / 255f, color.getGreen() / 255f,
                 color.getBlue() / 255f);
     }
-    
+
     /**
      * Set an arbitrary uniform variable of type 'vec4' with the given
      * Color.
@@ -241,7 +249,7 @@ public class Shader {
         gl.glUniform4f(loc, color.getRed() / 255f, color.getGreen() / 255f,
                 color.getBlue() / 255f, color.getAlpha() / 255f);
     }
-    
+
     /**
      * Set an arbitrary uniform variable of type 'float' with the given
      * float.
