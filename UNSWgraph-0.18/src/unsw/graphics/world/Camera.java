@@ -127,9 +127,14 @@ public class Camera implements KeyListener {
             
             System.out.println("Moving Forward");
             break;
+        
+       case KeyEvent.VK_F:
+        	player.isSlashing();
+        	break;        
            
         case KeyEvent.VK_SPACE:
         	FirstPersonCam ^= true;
+        	player.resetAnimation();
         	System.out.println(FirstPersonCam);
         	break;
         }

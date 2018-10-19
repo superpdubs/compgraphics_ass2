@@ -28,6 +28,9 @@ public class Character {
     private ArrayList<TriangleMesh> walk;
     private Texture texture;
 	private boolean moveBackwards;
+	
+	private ArrayList<Integer> animLength;
+	private boolean isSlashing;
     
     public Character(Point3D origin, float angle, float scale) {
     	this.myPos = origin;
@@ -37,7 +40,16 @@ public class Character {
     	this.curAnim = 0;
     	this.animCooldown = 0;
     	this.isWalking = false;
+    	this.isSlashing = false;
     	this.moveBackwards = false;
+    	
+    	this.animLength = new ArrayList<Integer>();
+    	animLength.add(0, 1);	//walk start
+    	animLength.add(1, 17);	//walk mid
+    	animLength.add(2, 18);	//walk mid
+    	animLength.add(3, 32);	//walk end
+    	animLength.add(4, 33);	//slash start
+    	animLength.add(5, 43);	//slash end
     	
     	try {
     		body = new TriangleMesh("res/models/MadBunny/madbunny_walk00.ply");
@@ -47,7 +59,7 @@ public class Character {
     	
     	this.walk = new ArrayList<TriangleMesh>();
     	
-        for (int i = 0; i < 33; i++) {
+        for (int i = 0; i <= animLength.get(3); i++) {
         	String frameNum = "";
         	if (i < 10) {
         		frameNum = "0" + i;
@@ -59,6 +71,24 @@ public class Character {
 	            walk.add(i, new TriangleMesh(modelPath, true, true));
 	        } catch (Exception e) {
 	        	System.out.println(walk.size());
+	            System.out.println("Exception occured loading character model");
+	        }
+	    }
+        
+        for (int n = animLength.get(4); n <= animLength.get(5); n++) {
+        	String frameNum = "";
+        	String modelPath = "";
+        	int i = n - animLength.get(4) + 1;
+        	
+        	if (i < 10) {
+        		frameNum = "0" + i;
+        	} else {
+        		frameNum = "" + i;
+        	}
+	        try {
+            	modelPath = "res/models/MadBunny/madbunny_slash" + frameNum + ".ply";
+	            walk.add(n, new TriangleMesh(modelPath, true, true));
+	        } catch (Exception e) {
 	            System.out.println("Exception occured loading character model");
 	        }
 	    }
@@ -88,7 +118,16 @@ public class Character {
     	System.out.println(myAngle);
     	//body.draw(gl, frame.translate(myPos).rotateY(myAngle).scale(myScale, myScale, myScale));
     	
-    	if (isWalking) {
+    	if (isWalking && !isSlashing) {    		
+    		if (curAnim == 0) {
+	    		Random rand = new Random();
+	    		if (rand.nextInt(2) == 0) {
+	    			curAnim = animLength.get(0);
+	    		} else {
+	    			curAnim = animLength.get(2);
+	    		}
+    		}
+    		
     		if (moveBackwards) {
     			walk.get(curAnim).draw(gl, frame.translate(myPos).rotateY(myAngle + 180).scale(myScale, myScale, myScale));
     		} else {
@@ -101,26 +140,46 @@ public class Character {
 	    		curAnim ++;
 	    		animCooldown --;
 	    	}
-	    	if (curAnim >= walk.size()) {
-	    		curAnim = 0;
-	    		if (animCooldown <= 0) isWalking = false;
-	    	} else if (curAnim == 18) {
-	    		if (animCooldown <= 0) isWalking = false;
+	    	if (curAnim >= animLength.get(3)) {
+	    		curAnim = animLength.get(0);
+	    		if (animCooldown <= 0) {
+	    			curAnim = 0;
+	    			isWalking = false;
+	    		}
+	    	} else if (curAnim == animLength.get(2)) {
+	    		if (animCooldown <= 0) {
+	    			curAnim = 0;
+	    			isWalking = false;
+	    		}
 	    	}
-    	} else {
+    	} 
+    	
+    	if (isSlashing) {
+    		isWalking = false;
+    		
+    		if (moveBackwards) {
+    			walk.get(curAnim).draw(gl, frame.translate(myPos).rotateY(myAngle + 180).scale(myScale, myScale, myScale));
+    		} else {
+    			walk.get(curAnim).draw(gl, frame.translate(myPos).rotateY(myAngle).scale(myScale, myScale, myScale));
+    		}
+	    	
+	    	fps ++;
+	    	if (fps >= animSpeed) {
+	    		fps = 0;
+	    		curAnim ++;
+	    	}
+	    	if (curAnim >= animLength.get(5)) {
+	    		curAnim = 0;
+	    		isSlashing = false;
+	    	}
+    	} 
+    	if (!isWalking && !isSlashing){
     		if (moveBackwards) {
     			walk.get(0).draw(gl, frame.translate(myPos).rotateY(myAngle + 180).scale(myScale, myScale, myScale));
     		} else {
     			walk.get(0).draw(gl, frame.translate(myPos).rotateY(myAngle).scale(myScale, myScale, myScale));
     		}
     		fps = 0;
-    		
-    		Random rand = new Random();
-    		if (rand.nextInt(2) == 0) {
-    			curAnim = 0;
-    		} else {
-    			curAnim = 18;
-    		}
     	}
     }
     
@@ -149,5 +208,22 @@ public class Character {
     	}
     	this.isWalking = true;
     	animCooldown = 8;
+    	
+    	if (!isSlashing) animSpeed = 2;
+    }
+    
+    public void isSlashing() {
+    	this.isSlashing = true;
+    	curAnim = animLength.get(4);
+    	animSpeed = 3;
+    }
+    
+    public void resetAnimation() {
+    	curAnim = 0;
+    	fps = 0;
+    	animSpeed = 2;
+    	animCooldown = 0;
+    	isWalking = false;
+    	isSlashing = false;
     }
 }
