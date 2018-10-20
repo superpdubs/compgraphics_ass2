@@ -51,7 +51,6 @@ public class World extends Application3D implements MouseListener {
         this.camera = new Camera(this);
         this.sun = new Sun(terrain.getWidth(), 2000);
         useCamera = true;
-       // setBackground(Color.BLACK);
     }
    
     /**
@@ -72,8 +71,6 @@ public class World extends Application3D implements MouseListener {
         
         CoordFrame3D frame = CoordFrame3D.identity();
 
-        // modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
-
         if (useCamera) {
             camera.setView(gl);
         } else {
@@ -93,12 +90,13 @@ public class World extends Application3D implements MouseListener {
         terrain.drawTerrain(gl, frame);
 
         RainSystem.display(gl, camera.getViewFrame());
-//        modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
         modelLight.setCameraPosition(this.camera.getPosition());
         
+        // Check Sun Object to see if animation is on.
     	if (sun.getToggle()) {
     		sun.setLight(modelLight);
     	} else {
+        	// Monitor Day/Night toggle
 	        if (modelLight.getToggle()) {
 	            modelLight.setSunlightShader();
 	        } else {
@@ -106,16 +104,12 @@ public class World extends Application3D implements MouseListener {
 	        }
     	}
     	
+    	// Monitor Torch toggle
         if (modelLight.getTorch()) {
         	modelLight.torchOn();
-        	System.out.println("torch on");
         } else {
         	modelLight.torchOff();
-        	System.out.println("torch off");
-        }
-
-        
-        
+        }        
 	}
 
     public Terrain getTerrain() {
@@ -147,10 +141,6 @@ public class World extends Application3D implements MouseListener {
         	modelLight.setCameraPosition(this.camera.getPosition());
         	getWindow().addKeyListener(modelLight);
         }
-
-        //Shader shader = new Shader(gl, "shaders/vertex_particle.glsl",
-         //       "shaders/fragment_particle.glsl");
-        //shader.use(gl);
 
         camera.init(gl);
 
