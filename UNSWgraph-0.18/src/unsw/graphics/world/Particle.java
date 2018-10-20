@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Particle {
         public float life; // how alive it is
-        public float r, g, b; // color
+        public float r, g, b;
         public float x, y, z; // position
         public float speedY; // speed in the direction
         private int width;

@@ -21,20 +21,18 @@ import unsw.graphics.geometry.Point3D;
 import static com.jogamp.opengl.GL.GL_BLEND;
 
 /**
- * Displays fireworks using a particle system. Taken from NeHe Lesson #19a:
- * Fireworks
+ * Rain System (Extension Part)
+ * Uses a particle system, and produces rain with a given particle texture
+ * Use t to produce rain.
  *
- * @author Robert Clifton-Everest
  */
 public class Rain implements KeyListener {
 
     private int MAX_PARTICLES; // max number of particles
     private Particle[] particles;
 
-    // Set when the particles first burst
     private boolean rain = false;
 
-    // Pull forces in each direction
     private static float gravityY = -0.0008f; // gravity
 
     // Texture applied over the shape
