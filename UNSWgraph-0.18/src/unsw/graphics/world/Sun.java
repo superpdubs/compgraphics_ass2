@@ -8,26 +8,23 @@ import com.jogamp.newt.event.KeyListener;
 import unsw.graphics.geometry.Point3D;
 
 public class Sun implements KeyListener {  
-	private boolean useSun;
 	private float radius;
 	private float xPosition;
-	private float increment;
 	private float envAmbInt, envAmbCoeff;
 	private float ambValue, specValue;
-	private int cycle;
-	private int daySpeed;
+	private int cycle, daySpeed;
 	
 	private boolean dayTime, passTime;
+	private boolean useSun;
 	
     public Sun(float width, int daySpeed) {
-    	this.useSun = true;
     	this.radius = width / 2;
     	this.daySpeed = daySpeed;
     	xPosition = 0f;
-    	increment = 0.001f;
     	resetCycle();
     	
-    	this.dayTime = false;
+    	this.useSun = false;
+    	this.dayTime = true;
     	this.passTime = false;
     }
     
@@ -38,7 +35,7 @@ public class Sun implements KeyListener {
 				resetCycle();
     			passTime = true;
     			xPosition = light.getLightPos().getX();
-    			envAmbInt = 0.2f;
+    			envAmbInt = 0.3f;
     			envAmbCoeff = 1f;
     			ambValue = 0.6f;
     			specValue = 0.6f;
@@ -61,10 +58,11 @@ public class Sun implements KeyListener {
     			
     			xPosition += getChange(light.getLightPos().getX() + radius, light.getLightPos().getX());
     			
-    			envAmbInt -= getChange(0.2f, 0.1f);
-    			envAmbCoeff -= getChange(1f, 0f);
-    			ambValue -= getChange(0.6f, 0f);
-    			specValue -= getChange(0.6f, 0f);
+    			envAmbInt = age(envAmbInt, 0.3f, 0.1f, -1);
+    			envAmbCoeff = age(envAmbCoeff, 1f, 0f, -1);
+    			ambValue = age(ambValue, 0.6f, 0f, -1);
+    			specValue = age(specValue, 0.6f, 0f, -1);
+    			
     			cycle --;
     			if (cycle <= 0) {
     				passTime = false;
@@ -80,10 +78,10 @@ public class Sun implements KeyListener {
     			
     			xPosition += getChange(light.getLightPos().getX(), light.getLightPos().getX() - radius);
     			
-    			envAmbInt += getChange(0.2f, 0.1f);
-    			envAmbCoeff += getChange(1f, 0f);
-    			ambValue += getChange(0.6f, 0f);
-    			specValue += getChange(0.6f, 0f);
+    			envAmbInt = age(envAmbInt, 0.3f, 0.1f, 1);
+    			envAmbCoeff = age(envAmbCoeff, 1f, 0f, 1);
+    			ambValue = age(ambValue, 0.6f, 0f, 1);
+    			specValue = age(specValue, 0.6f, 0f, 1);
     			cycle --;
     			if (cycle <= 0) {
     				passTime = false;
@@ -93,16 +91,27 @@ public class Sun implements KeyListener {
     	}
     }
     
-    public boolean getToggle() {
-    	return useSun;
+    private float getChange(float uX, float lX) {
+    	return ((uX - lX) / daySpeed);
+    }
+    
+    private float age(float subject, float uX, float lX, float direction) {
+    	float agedValue = subject + getChange(uX, lX) * direction;
+    	if (agedValue > 1f) {
+    		return 1f;
+    	} else if (agedValue < 0f) {
+    		return 0f;
+    	} else {
+    		return agedValue;
+    	}
     }
     
     private void resetCycle() {
     	cycle = daySpeed;
     }
-    
-    private float getChange(float uX, float lX) {
-    	return ((uX - lX) / increment / daySpeed) * increment;
+
+    public boolean getToggle() {
+    	return useSun;
     }
 
 	@Override
