@@ -31,7 +31,7 @@ public class Sun implements KeyListener {
     public void setLight(Light light) {
     	if (useSun) {
     		if (dayTime && !passTime) {
-    			light.setSunlight();
+    			light.setSunlightShader();
 				resetCycle();
     			passTime = true;
     			xPosition = light.getLightPos().getX();
@@ -41,6 +41,7 @@ public class Sun implements KeyListener {
     			specValue = 0.6f;
     			
     		} else if (!dayTime && !passTime) {
+    			light.setLightShader();
 				resetCycle();
     			passTime = true;
     			xPosition = light.getLightPos().getX() - radius;
@@ -50,7 +51,7 @@ public class Sun implements KeyListener {
     			specValue = 0f;
     			
     		} else if (dayTime && passTime) {
-    			light.setSunlightShader();
+    			light.setLightShader();
     			light.setLight(new Point3D(xPosition, light.getLightPos().getY(), light.getLightPos().getZ()), 
     					Color.WHITE, new Color(envAmbInt, envAmbInt, envAmbInt), 
     					new Color(envAmbCoeff, envAmbCoeff, 1), new Color(ambValue, ambValue, ambValue), 
@@ -70,7 +71,7 @@ public class Sun implements KeyListener {
     			}
     			
     		} else if (!dayTime && passTime) {
-    			light.setNightLightShader();
+    			light.setLightShader();
     			light.setLight(new Point3D(xPosition, light.getLightPos().getY(), light.getLightPos().getZ()), 
     					Color.WHITE, new Color(envAmbInt, envAmbInt, envAmbInt), 
     					new Color(envAmbCoeff, envAmbCoeff, 1), new Color(ambValue, ambValue, ambValue), 

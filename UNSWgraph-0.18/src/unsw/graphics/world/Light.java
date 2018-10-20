@@ -71,16 +71,20 @@ public class Light implements KeyListener{
 		return torch;
 	}
 
-	public void setSunlightShader() {
+	public void setLightShader() {
 		activeShader.use(targetGL);
+	}
+	
+	public void setSunlightShader() {
+		setLightShader();
 		this.setSunlight();
 	}
 
 	public void setNightLightShader() {
-		activeShader.use(targetGL);
+		setLightShader();
 		this.setNightlight();
 	}
-	
+
 	/**
 	 * Sets predetermined values for Day in a static environment
 	 */
