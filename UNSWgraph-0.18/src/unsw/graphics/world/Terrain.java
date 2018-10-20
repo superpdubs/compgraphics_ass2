@@ -32,7 +32,7 @@ public class Terrain {
     private List<Road> roads;
     private Vector3 sunlight;
     private Texture textureRoad;
-    private TriangleMesh meshes;
+    private TriangleMesh terrainMesh;
 
     /**
      * Create a new terrain
@@ -62,6 +62,17 @@ public class Terrain {
         return sunlight;
     }
 
+    public void destroy(GL3 gl) {
+        for (Tree t: trees) {
+            t.getTreeModel().destroy(gl);
+        }
+
+        for (Road r: roads) {
+            r.getRoadMesh().destroy(gl);
+        }
+        terrainMesh.destroy(gl);
+        textureRoad.destroy(gl);
+    }
     /**
      * Set the sunlight direction. 
      * 
@@ -229,12 +240,12 @@ public class Terrain {
 
             }
         }
-        meshes = new TriangleMesh(points, indices, true, texCoord);
+        terrainMesh = new TriangleMesh(points, indices, true, texCoord);
     }
     
     public void initTerrain(GL3 gl) {
         makeTerrainMesh();
-        meshes.init(gl);
+        terrainMesh.init(gl);
 
         this.textureRoad = new Texture(gl, "res/textures/rock.bmp", "bmp", false);
         for (Tree t: trees) {
@@ -254,7 +265,7 @@ public class Terrain {
     public void drawTerrain(GL3 gl, CoordFrame3D frame) {
         //Draw green terrain
         Shader.setPenColor(gl, Color.GREEN);
-        this.meshes.draw(gl, frame);
+        this.terrainMesh.draw(gl, frame);
 
         //Translate the trees with their respective positions, and downscale.
         for (Tree t: trees) {
