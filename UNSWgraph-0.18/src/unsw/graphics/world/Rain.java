@@ -1,7 +1,6 @@
 package unsw.graphics.world;
 
 import java.awt.Color;
-import java.util.Random;
 
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
@@ -9,10 +8,8 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL3;
 
-import unsw.graphics.Application3D;
 import unsw.graphics.ColorBuffer;
 import unsw.graphics.CoordFrame3D;
-import unsw.graphics.Matrix4;
 import unsw.graphics.Point3DBuffer;
 import unsw.graphics.Shader;
 import unsw.graphics.Texture;
