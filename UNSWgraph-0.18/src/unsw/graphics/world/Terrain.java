@@ -127,7 +127,7 @@ public class Terrain {
         float lowerZ= (float) Math.floor(z);
         float upperZ = (float) Math.ceil(z);
 
-        //Using (x−x1)(y2−y1)−(y−y1)(x2−x1) to calculate if a certain point lies to the left or right of a line
+        //Using (x - x1)(y2 - y1) - (y - y1)(x2 - x1) to calculate if a certain point lies to the left or right of a line
         //Using that formula, I calculated a line from bottom left to top-right of a grid square, and checked which
         //Point that lied on.
         float diff = ((x - lowerX) * (lowerZ - upperZ)) - ((z - upperZ)* (upperX - lowerX));
