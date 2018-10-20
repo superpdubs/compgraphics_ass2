@@ -152,7 +152,6 @@ public class Rain implements KeyListener {
             // Slowly kill it
             particles[i].life -= 0.0002;
             Point3D p = frame.transform(new Point3D(particles[i].x, particles[i].y, particles[i].z));
-            System.out.println("x: " + particles[i].x + " y: " + particles[i].y + " z: " + particles[i].z);
 
             //Deal with particle life and reset particle based on position
             if (p.getY() < 0) particles[i].life = 0;
