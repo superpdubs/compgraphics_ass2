@@ -42,12 +42,6 @@ public class Camera implements KeyListener {
     public void init(GL3 gl) {
     	player.init(gl);
     }
-    
-    public void draw(GL3 gl, CoordFrame3D frame) {
-        CoordFrame3D cameraFrame = frame.translate(myPos)
-                .rotateY(myAngle)
-                .scale(myScale, myScale, myScale);
-    }
 
     public CoordFrame3D getViewFrame() {
         CoordFrame3D viewFrame = CoordFrame3D.identity()
@@ -57,6 +51,15 @@ public class Camera implements KeyListener {
 
         return viewFrame;
     }
+    
+    public Point3D getPosition() {
+    	return this.myPos;
+    }
+    
+    public Point3D getCharacterPosition() {
+    	return player.getPosition();
+    }
+    
     /**
      * Set the view transform
      * 
@@ -85,14 +88,6 @@ public class Camera implements KeyListener {
     	}
     	
     	if (!FirstPersonCam) player.drawCharacter(gl);
-    }
-
-    public Point3D getPosition() {
-    	return this.myPos;
-    }
-    
-    public Point3D getCharacterPosition() {
-    	return player.getPosition();
     }
     
     @Override
