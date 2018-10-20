@@ -13,12 +13,13 @@ public class Light implements KeyListener{
 
 	private Shader activeShader;
 	private int lightIndex;
-	private Point3D lightPosition;
 	private GL3 targetGL;
 	private boolean toggleLight;
+	private boolean torch;
+	private Point3D lightPosition;
+	private Point3D origLightPosition;
 	private Point3D cameraPosition;
 	private Point3D avatarPosition;
-	private boolean torch;
 	
 	/**
 	 * Light Constructor
@@ -32,6 +33,7 @@ public class Light implements KeyListener{
 		this.lightPosition = lightPosition;
 		this.cameraPosition = cameraPosition;
 		this.avatarPosition = avatarPosition;
+		this.origLightPosition = lightPosition;
 		
 
 		activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
@@ -141,8 +143,15 @@ public class Light implements KeyListener{
         case KeyEvent.VK_CLOSE_BRACKET:
         	torch = !torch;
             break;
-
-        }
+        
+        
+	    case KeyEvent.VK_BACK_SLASH:
+	    	torch = !torch;
+	        break;
+	        
+	    default:
+	    	break;
+	    }
 
     }
 

@@ -157,7 +157,7 @@ public class Terrain {
 
             altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperZ)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerZ);
 
-            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + x + " " + z + "yoyoyoyoyo:" + altitudeZ);
+//            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + x + " " + z + "yoyoyoyoyo:" + altitudeZ);
         } else {
             float polatedupperX =  ((z - lowerZ)/(upperZ - lowerZ)) * upperX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
             float polatedlowerX = ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
@@ -167,7 +167,7 @@ public class Terrain {
 
             altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperZ)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerZ);
 
-            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + (z - lowerZ) + " " + (upperZ - z) + "x: " +  x + "yoyoyoyoyo:" + altitudeZ);
+//            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + (z - lowerZ) + " " + (upperZ - z) + "x: " +  x + "yoyoyoyoyo:" + altitudeZ);
         }
 
         return altitudeZ;
@@ -200,17 +200,17 @@ public class Terrain {
     }
 
     public void makeTerrainMesh() {
-        System.out.println("creating mesh... ");
+//        System.out.println("creating mesh... ");
         ArrayList<Point3D> points = new ArrayList<Point3D>();
         ArrayList<Point2D> texCoord = new ArrayList<Point2D>();
         ArrayList<Integer> indices = new ArrayList<Integer>();
         for (int i = 0; i < depth; i++) {
             for (int j = 0; j < width; j++) {
-                System.out.println("Point3D: " + i + " " + altitudes[i][j] + " " + j);
+//                System.out.println("Point3D: " + i + " " + altitudes[i][j] + " " + j);
                 points.add(new Point3D(i, altitudes[i][j], j));
                 texCoord.add(new Point2D(i, j));
 
-                System.out.println("index:" + (j) + " " + i);
+//                System.out.println("index:" + (j) + " " + i);
                 if (i == depth - 1 || j == width - 1) continue;
 
 
@@ -226,11 +226,11 @@ public class Terrain {
         }
         int counter = 0;
         for (Integer i: indices) {
-            System.out.print(i + " ");
+//            System.out.print(i + " ");
 
             counter++;
 
-            if (counter % 3 == 0) System.out.println();
+//            if (counter % 3 == 0) System.out.println();
         }
         meshes = new TriangleMesh(points, indices, true, texCoord);
     }

@@ -86,7 +86,9 @@ vec4 torch( vec4 input_color, mat4 view_matrix, vec4 viewPosition, float k,
     vec3 diffuse = max(lightIntensity*diffuseCoeff*dot(m,s), 0.0);
 
     float d = length((view_matrix*vec4(lightPos,1) - viewPosition).xyz);
-
+//    float d = 5;
+    
+    
     float spotlightConeAngle = 4;
     vec3 conedirection = normalize(-viewPosition.xyz);
     vec3 raydirection = -s;
