@@ -122,6 +122,7 @@ public class World extends Application3D {
     @Override
 	public void destroy(GL3 gl) {
 		super.destroy(gl);
+		modelLight.destroy();
 		
 		//TO DO: destroy on all children
 	}

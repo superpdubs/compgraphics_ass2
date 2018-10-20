@@ -220,5 +220,11 @@ public class Light implements KeyListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+    public void destroy() {
+		activeShader.destroy(targetGL);
+	}
+
+	
 }
 
