@@ -18,14 +18,13 @@ public class Character {
     private float myAngle;
     private float myScale;
     
-    private int animSpeed = 2;
-    private int fps;
-    private int curAnim;
+    private int animSpeed = 2;	// Speed of the animation; The higher the value the slower the frames are played.
+    private int fps;			// Counter for animSpeed.
+    private int curAnim;		// Current frame of animation
     private boolean isWalking;
-    private int animCooldown;
+    private int animCooldown;	// The period of time between pressing a movement key, and the walk animation looping.
     
-    private TriangleMesh body;
-    private ArrayList<TriangleMesh> walk;
+    private ArrayList<TriangleMesh> walk;	//Store all animations used by the character. Index = frames.
     private Texture texture;
 	private boolean moveBackwards;
 	
@@ -50,14 +49,7 @@ public class Character {
     	animLength.add(3, 22);	//walk end
     	animLength.add(4, 23);	//slash start
     	animLength.add(5, 29);	//slash end
-    	
-    	// Load model mesh
-    	try {
-    		body = new TriangleMesh("res/models/MadBunny_midRes/madbunny_walk00.ply");
-    	} catch (Exception e) {
-            System.out.println("Exception occured loading character model");
-        }
-    	
+
     	this.walk = new ArrayList<TriangleMesh>();
     	
     	// set animation / frame rate
@@ -72,7 +64,6 @@ public class Character {
             	String modelPath = "res/models/MadBunny_midRes/madbunny_walk" + frameNum + ".ply";
 	            walk.add(i, new TriangleMesh(modelPath, true, true));
 	        } catch (Exception e) {
-	        	System.out.println(walk.size());
 	            System.out.println("Exception occured loading character model");
 	        }
 	    }
@@ -101,7 +92,6 @@ public class Character {
     		walk.get(i).init(gl);
     	}
     	
-    	body.init(gl);
     	texture = new Texture(gl, "res/textures/fur_texture.bmp", "bmp", false);
     }
     
@@ -109,8 +99,6 @@ public class Character {
     	for (int i = 0; i < walk.size(); i++) {
     		walk.get(i).destroy(gl);
     	}
-    	
-        body.destroy(gl);
     }
     
     // Draw and setup character textures. 
@@ -124,6 +112,7 @@ public class Character {
     	
     	if (isWalking && !isSlashing) {    		
     		if (curAnim == 0) {
+    			// If starting from neutral position, randomise left leg / right leg first walk motion.
 	    		Random rand = new Random();
 	    		if (rand.nextInt(2) == 0) {
 	    			curAnim = animLength.get(0);
@@ -138,18 +127,21 @@ public class Character {
     			walk.get(curAnim).draw(gl, frame.translate(myPos).rotateY(myAngle).scale(myScale, myScale, myScale));
     		}
 	    	
-	    	fps ++;
+	    	fps ++;		// increment counter, and if enough draw calls have passed, animate the next frame.
 	    	if (fps >= animSpeed) {
 	    		fps = 0;
 	    		curAnim ++;
 	    		animCooldown --;
 	    	}
+	    	// Stop the animation from looping once it reaches the end of the whole walk motion
 	    	if (curAnim >= animLength.get(3)) {
 	    		curAnim = animLength.get(0);
 	    		if (animCooldown <= 0) {
 	    			curAnim = 0;
 	    			isWalking = false;
 	    		}
+	    	// Stop the animation from continuing once it reaches one 'step'. Cooldown and user key
+	    	// will trigger a loop.
 	    	} else if (curAnim == animLength.get(2)) {
 	    		if (animCooldown <= 0) {
 	    			curAnim = 0;
@@ -159,7 +151,7 @@ public class Character {
     	} 
     	
     	if (isSlashing) {
-    		isWalking = false;
+    		isWalking = false;	// Slash animation has priority.
     		
     		if (moveBackwards) {
     			walk.get(curAnim).draw(gl, frame.translate(myPos).rotateY(myAngle + 180).scale(myScale, myScale, myScale));
@@ -197,6 +189,7 @@ public class Character {
     
     public void addRotation(float rotation) {
     	myAngle += rotation;
+    	// Normalise angle.
     	if (myAngle > 180) {
     		myAngle -= 360;
     	} else if (myAngle <= -180) {
@@ -230,7 +223,7 @@ public class Character {
     }
     
     /**
-     * Reset Animation settings to predetermined values
+     * Reset Animation settings to predetermined (init) values
      */
     public void resetAnimation() {
     	curAnim = 0;

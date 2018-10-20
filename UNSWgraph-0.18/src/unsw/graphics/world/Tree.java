@@ -4,7 +4,7 @@ import unsw.graphics.geometry.Point3D;
 import unsw.graphics.geometry.TriangleMesh;
 
 /**
- * COMMENT: Comment Tree
+ * Make a tree object which contains the tree mesh and position.
  *
  * @author malcolmr
  */
