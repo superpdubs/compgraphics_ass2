@@ -16,6 +16,7 @@ import unsw.graphics.Matrix4;
 import unsw.graphics.Point3DBuffer;
 import unsw.graphics.Shader;
 import unsw.graphics.Texture;
+import unsw.graphics.geometry.Point3D;
 
 import static com.jogamp.opengl.GL.GL_BLEND;
 
@@ -27,7 +28,7 @@ import static com.jogamp.opengl.GL.GL_BLEND;
  */
 public class Rain implements KeyListener {
 
-    private static final int MAX_PARTICLES = 2000; // max number of particles
+    private static final int MAX_PARTICLES = 500; // max number of particles
     private Particle[] particles;
 
     // Set when the particles first burst
@@ -37,7 +38,7 @@ public class Rain implements KeyListener {
     private static float gravityY = -0.0008f; // gravity
 
     // Initial speed for all the particles
-    private static float speedYGlobal = 0.1f;
+    private static float speedYGlobal = 0.0f;
 
     // Texture applied over the shape
     private Texture texture;
@@ -106,13 +107,13 @@ public class Rain implements KeyListener {
         gl.glVertexAttribPointer(Shader.COLOR, 4, GL.GL_FLOAT, false, 0, 0);
 
         // Set the point size
-        gl.glPointSize(100);
+        gl.glPointSize(50);
     }
 
 
-    public void display(GL3 gl) {
+    public void display(GL3 gl, CoordFrame3D frames) {
         // Setup the particle shader
-
+        if (burst == false) return;
         gl.glEnable(GL_BLEND);
         gl.glDisable(GL.GL_DEPTH_TEST);
         gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
@@ -131,7 +132,7 @@ public class Rain implements KeyListener {
                 null, GL.GL_DYNAMIC_DRAW);
         gl.glVertexAttribPointer(Shader.COLOR, 4, GL.GL_FLOAT, false, 0, 0);
 
-        gl.glPointSize(50);
+
 
         // Update the buffers
         for (int i = 0; i < MAX_PARTICLES; i++) {
@@ -155,29 +156,34 @@ public class Rain implements KeyListener {
 
         CoordFrame3D frame = CoordFrame3D.identity().translate(0, 10, 0);
         Shader.setModelMatrix(gl, frame.getMatrix());
+        Shader.setViewMatrix(gl, frames.getMatrix());
         gl.glDrawArrays(GL.GL_POINTS, 0, particles.length);
 
         // Update the particles
+
+        float maxSpeed = 0.1f;
+        Random rand = new Random();
+        float speed = 0.0f + (rand.nextFloat() - 0.5f) * maxSpeed;
         for (int i = 0; i < MAX_PARTICLES; i++) {
             // Move the particle
-
-            particles[i].x += particles[i].speedX;
             particles[i].y += particles[i].speedY;
-            particles[i].z += particles[i].speedZ;
 
             // Apply the gravity force on y-axis
             particles[i].speedY += gravityY;
 
             // Slowly kill it
-            particles[i].life -= 0.002;
+            particles[i].life -= 0.0002;
+            Point3D p = frame.transform(new Point3D(particles[i].x, particles[i].y, particles[i].z));
+            System.out.println("x: " + particles[i].x + " y: " + particles[i].y + " z: " + particles[i].z);
 
-            if (burst) {
-                particles[i].burst();
+            if (p.getY() < 0) particles[i].life = 0;
+            if (particles[i].life == 0) {
+                particles[i].life = 1.0f;
+                particles[i].y = 0;
+                particles[i].speedY = -0.04f;
             }
 
         }
-        if (burst)
-            burst = false;
         gl.glDisable(GL_BLEND);
         gl.glEnable(GL.GL_DEPTH_TEST);
     }
@@ -213,13 +219,13 @@ public class Rain implements KeyListener {
         public void burst() {
             // Set the initial position
             x = y = z = 0.0f;
-            x = rand.nextFloat() * width;
-            z = rand.nextFloat() * depth;
+            x = rand.nextFloat() * (width - 1);
+            z = rand.nextFloat() * (depth - 1);
             // Generate a random speed and direction in polar coordinate, then
             // resolve
             // them into x and y.
             float maxSpeed = 0.1f;
-            float speed = 0.02f + (rand.nextFloat() - 0.5f) * maxSpeed;
+            float speed = 0.0f + (rand.nextFloat() - 0.5f) * maxSpeed;
             float angle = (float) Math.toRadians(rand.nextInt(360));
 
             speedX = speed * (float) Math.cos(angle);
@@ -242,8 +248,11 @@ public class Rain implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_T:
-                if (!burst)
+                if (!burst) {
                     burst = true;
+                } else {
+                    burst = false;
+                }
                 break;
         }
     }

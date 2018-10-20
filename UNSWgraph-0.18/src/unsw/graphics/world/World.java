@@ -76,9 +76,9 @@ public class World extends Application3D implements MouseListener {
 
        // modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
 
-        RainSystem.display(gl);
-        CoordFrame3D frame = CoordFrame3D.identity();
 
+
+        CoordFrame3D frame = CoordFrame3D.identity();
         if (useCamera) {
             camera.setView(gl);
         	modelLight.setCameraPosition(this.camera.getPosition());
@@ -91,18 +91,19 @@ public class World extends Application3D implements MouseListener {
         }
 
         Shader.setPenColor(gl, Color.GREEN);
+
         terrain.drawTerrain(gl, frame);
 
+        RainSystem.display(gl, camera.getViewFrame());
         if (modelLight.getToggle()) {
             modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
             modelLight.setCameraPosition(this.camera.getPosition());
-        	modelLight.setSunlight();
+            modelLight.setSunlight();
         } else {
             modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
             modelLight.setCameraPosition(this.camera.getPosition());
-        	modelLight.setNightlight();
+            modelLight.setNightlight();
         }
-
 	}
 
     public Terrain getTerrain() {
