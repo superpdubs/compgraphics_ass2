@@ -118,7 +118,6 @@ public class World extends Application3D implements MouseListener {
         
         if (USE_LIGHTING && this.terrain.getSunlight() != null) {
         	modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
-//        	modelLight.setCameraPosition(this.camera.getPosition());
         	getWindow().addKeyListener(modelLight);
         }
         

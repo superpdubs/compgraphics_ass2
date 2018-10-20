@@ -22,28 +22,23 @@ public class Light implements KeyListener{
 	 * Light Constructor
 	 * 
 	 * @param gl
-	 * @param lightIndex - 1 sunlight, 2 night, 3 torch and point light
+	 * @param lightIndex - 1 sunlight & null torch, 2 night & torch
 	 */
 	public Light(GL3 gl, int lightIndex, Point3D lightPosition, Point3D cameraPosition) {
 		this.lightIndex = lightIndex;
 		this.targetGL = gl;
 		this.lightPosition = lightPosition;
 		this.cameraPosition = cameraPosition;
-		
+
+		activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
+		activeShader.use(targetGL);
+
 		switch(lightIndex) {
-			// sunlight
 			case(1):
-//				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_tex_phong_mod.glsl");
-				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
-				activeShader.use(targetGL);
 				this.setSunlight();
 				this.toggleLight = true;
 				break;
 			case(2):
-//				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_tex_phong_mod.glsl");
-//				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_testSpotlight.glsl");
-				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
-				activeShader.use(targetGL);
 				this.setNightlight();
 				this.toggleLight = false;
 				break;
@@ -58,18 +53,7 @@ public class Light implements KeyListener{
 		return toggleLight;
 	}
 	
-	public void setSunlight() {
-        //Implement Lighting/Sunlight
-//        Shader.setPoint3D(this.targetGL, "lightPos", this.lightPosition);
-//        Shader.setColor(this.targetGL, "lightIntensity", Color.WHITE);
-//		Shader.setColor(this.targetGL, "ambientIntensity", new Color(0.2f, 0.2f, 0.2f));
-//
-//        // Set the material properties
-//        Shader.setColor(this.targetGL, "ambientCoeff", Color.WHITE);
-//        Shader.setColor(this.targetGL, "diffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
-//        Shader.setColor(this.targetGL, "specularCoeff", new Color(0.6f, 0.6f, 0.6f));
-//        Shader.setFloat(this.targetGL, "phongExp", 8f);
-//        
+	public void setSunlight() {    
       //Implement Lighting/Nightlight
         Shader.setPoint3D(this.targetGL, "envLightPos", this.lightPosition);
         Shader.setColor(this.targetGL, "envLightIntensity", Color.WHITE);
@@ -99,7 +83,7 @@ public class Light implements KeyListener{
 		
         // Set the material properties
         Shader.setColor(this.targetGL, "envAmbientCoeff", new Color(0,0,200));
-        Shader.setColor(this.targetGL, "envDiffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
+        Shader.setColor(this.targetGL, "envDiffuseCoeff", new Color(0.3f, 0.3f, 0.3f));
         Shader.setColor(this.targetGL, "envSpecularCoeff", new Color(0.1f, 0.1f, 0.1f));
         Shader.setFloat(this.targetGL, "envPhongExp", 8f);
 		
