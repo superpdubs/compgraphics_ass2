@@ -123,7 +123,8 @@ public class World extends Application3D {
 	public void destroy(GL3 gl) {
 		super.destroy(gl);
 		modelLight.destroy(gl);
-		
+		terrain.destroy(gl);
+		camera.destroy(gl);
 		//TO DO: destroy on all children
 	}
 

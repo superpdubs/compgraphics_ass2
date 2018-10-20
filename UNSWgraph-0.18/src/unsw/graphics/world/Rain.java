@@ -164,6 +164,7 @@ public class Rain implements KeyListener {
     public void destroy(GL3 gl) {
         gl.glDeleteBuffers(2, new int[] { positionsName, colorsName }, 0);
         texture.destroy(gl);
+        shader.destroy(gl);
     }
 
     @Override
