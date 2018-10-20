@@ -100,7 +100,7 @@ public class Character {
     	}
     	
     	body.init(gl);
-    	texture = new Texture(gl, "res/textures/BrightPurpleMarble.png", "png", false);
+    	texture = new Texture(gl, "res/textures/fur_texture.bmp", "bmp", false);
     }
     
     public void destroy(GL3 gl) {
@@ -112,6 +112,9 @@ public class Character {
     }
     
     public void drawCharacter(GL3 gl) {
+        Shader.setInt(gl, "tex", 0);
+        gl.glActiveTexture(GL.GL_TEXTURE0);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getId());
         Shader.setPenColor(gl, Color.WHITE);
         
     	CoordFrame3D frame = CoordFrame3D.identity();
