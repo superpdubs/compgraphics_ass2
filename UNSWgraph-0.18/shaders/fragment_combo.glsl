@@ -43,9 +43,9 @@ vec4 torch( vec4 input_color, mat4 view_matrix, vec4 viewPosition, float k,
 
 void main() {
 
-	//outputColor = envLight( input_color, view_matrix, viewPosition, m, tex, texCoordFrag,
-	//	envLightPos, envLightIntensity, envAmbientIntensity, envAmbientCoeff, envDiffuseCoeff,
-//		envSpecularCoeff, envPhongExp );
+    outputColor = envLight( input_color, view_matrix, viewPosition, m, tex, texCoordFrag,
+        envLightPos, envLightIntensity, envAmbientIntensity, envAmbientCoeff, envDiffuseCoeff,
+        envSpecularCoeff, envPhongExp );
 
 	outputColor += torch( input_color, view_matrix, viewPosition, k, torchLightPos, torchLightIntensity,
 		torchAmbientIntensity, torchAmbientCoeff, torchDiffuseCoeff);
