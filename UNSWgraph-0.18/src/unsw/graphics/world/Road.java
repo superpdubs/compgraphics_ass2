@@ -83,10 +83,12 @@ public class Road {
         //Add a triangles to relevant mesh, with correspondence to points list
         for (int i = 0; i < points.size(); i++) {
             if (i + 3 >= points.size()) continue;
+            //Calculate the top-left triangle
             indices.add(i);
             indices.add(i + 1);
             indices.add(i + 2);
 
+            //Calculate the bottm-right traingle
             indices.add(i + 2);
             indices.add(i + 1);
             indices.add(i + 3);
