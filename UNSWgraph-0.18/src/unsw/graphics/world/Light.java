@@ -7,6 +7,7 @@ import com.jogamp.newt.event.KeyListener;
 import com.jogamp.opengl.GL3;
 
 import unsw.graphics.Shader;
+import unsw.graphics.Vector3;
 import unsw.graphics.geometry.Point3D;
 
 public class Light implements KeyListener{
@@ -94,7 +95,7 @@ public class Light implements KeyListener{
 	
 	public void torchOn() {
 		// test torch light
-		Shader.setPoint3D(this.targetGL, "torchLightPos", this.avatarPosition.translate(0, 1, 1));
+		Shader.setPoint3D(this.targetGL, "torchLightPos", this.cameraPosition.translate(0, 0, 0));
         Shader.setColor(this.targetGL, "torchLightIntensity", Color.WHITE);
         Shader.setColor(this.targetGL, "torchAmbientIntensity", new Color(0.7f, 0.7f, 0.7f));
 		Shader.setFloat(this.targetGL, "k", 0.5f);
@@ -105,7 +106,7 @@ public class Light implements KeyListener{
 	
 	public void torchOff() {
 		// test torch light
-		Shader.setPoint3D(this.targetGL, "torchLightPos", this.avatarPosition.translate(0, 1, 0));
+		Shader.setPoint3D(this.targetGL, "torchLightPos", this.cameraPosition);
         Shader.setColor(this.targetGL, "torchLightIntensity", Color.WHITE);
         Shader.setColor(this.targetGL, "torchAmbientIntensity", new Color(0.0f, 0.0f, 0.0f));
 		Shader.setFloat(this.targetGL, "k", 1f);
