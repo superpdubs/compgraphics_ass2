@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
-import com.jogamp.opengl.GL3;
 
 import unsw.graphics.geometry.Point3D;
 
@@ -28,12 +27,11 @@ public class Sun implements KeyListener {
     	increment = 0.001f;
     	resetCycle();
     	
-    	this.dayTime = true;
+    	this.dayTime = false;
     	this.passTime = false;
     }
     
     public void setLight(Light light) {
-		System.out.println(xPosition);
     	if (useSun) {
     		if (dayTime && !passTime) {
     			light.setSunlight();
@@ -46,14 +44,13 @@ public class Sun implements KeyListener {
     			specValue = 0.6f;
     			
     		} else if (!dayTime && !passTime) {
-    			light.setNightlight();
 				resetCycle();
     			passTime = true;
     			xPosition = light.getLightPos().getX() - radius;
     			envAmbInt = 0.1f;
     			envAmbCoeff = 0f;
-    			ambValue = 0.3f;
-    			specValue = 0.1f;
+    			ambValue = 0f;
+    			specValue = 0f;
     			
     		} else if (dayTime && passTime) {
     				
@@ -66,8 +63,8 @@ public class Sun implements KeyListener {
     			
     			envAmbInt -= getChange(0.2f, 0.1f);
     			envAmbCoeff -= getChange(1f, 0f);
-    			ambValue -= getChange(0.6f, 0.3f);
-    			specValue -= getChange(0.6f, 0.1f);
+    			ambValue -= getChange(0.6f, 0f);
+    			specValue -= getChange(0.6f, 0f);
     			cycle --;
     			if (cycle <= 0) {
     				passTime = false;
@@ -85,8 +82,8 @@ public class Sun implements KeyListener {
     			
     			envAmbInt += getChange(0.2f, 0.1f);
     			envAmbCoeff += getChange(1f, 0f);
-    			ambValue += getChange(0.6f, 0.3f);
-    			specValue += getChange(0.6f, 0.1f);
+    			ambValue += getChange(0.6f, 0f);
+    			specValue += getChange(0.6f, 0f);
     			cycle --;
     			if (cycle <= 0) {
     				passTime = false;
@@ -114,6 +111,16 @@ public class Sun implements KeyListener {
         //Night and Day toggle
         case KeyEvent.VK_V:
         	useSun ^= true;
+        	if (useSun) {
+        		System.out.println("DayNight Cycle activated");
+        	} else {
+        		System.out.println("DayNight Cycle deactivated");
+        	}
+            break;
+            
+        case KeyEvent.VK_OPEN_BRACKET:
+        	dayTime ^= true;
+        	passTime = false;
             break;
 	        
 	    default:
