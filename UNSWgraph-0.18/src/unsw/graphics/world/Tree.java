@@ -1,5 +1,7 @@
 package unsw.graphics.world;
 
+import com.jogamp.opengl.GL3;
+
 import unsw.graphics.geometry.Point3D;
 import unsw.graphics.geometry.TriangleMesh;
 
@@ -29,7 +31,8 @@ public class Tree {
         return position;
     }
 
-
-
+    public void destroy(GL3 gl) {
+    	this.treeModel.destroy(gl);
+    }
 
 }
