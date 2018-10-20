@@ -172,7 +172,7 @@ public class Rain implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_T:
+            case KeyEvent.VK_BACK_SLASH:
                 if (!rain) {
                     rain = true;
                 } else {
