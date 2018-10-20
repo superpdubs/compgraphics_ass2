@@ -86,7 +86,7 @@ public class Light implements KeyListener{
         Shader.setColor(this.targetGL, "envAmbientIntensity", new Color(0.1f, 0.1f, 0.1f));
 		
         // Set the material properties
-        Shader.setColor(this.targetGL, "envAmbientCoeff", new Color(0,0,200));
+        Shader.setColor(this.targetGL, "envAmbientCoeff", new Color(0,0,1f));
         Shader.setColor(this.targetGL, "envDiffuseCoeff", new Color(0.3f, 0.3f, 0.3f));
         Shader.setColor(this.targetGL, "envSpecularCoeff", new Color(0.1f, 0.1f, 0.1f));
         Shader.setFloat(this.targetGL, "envPhongExp", 8f);
@@ -94,12 +94,12 @@ public class Light implements KeyListener{
 	
 	public void torchOn() {
 		// test torch light
-		Shader.setPoint3D(this.targetGL, "torchLightPos", this.avatarPosition.translate(0, 1, 0));
+		Shader.setPoint3D(this.targetGL, "torchLightPos", this.avatarPosition.translate(0, 1, 1));
         Shader.setColor(this.targetGL, "torchLightIntensity", Color.WHITE);
-        Shader.setColor(this.targetGL, "torchAmbientIntensity", new Color(0.1f, 0.1f, 0.1f));
+        Shader.setColor(this.targetGL, "torchAmbientIntensity", new Color(0.7f, 0.7f, 0.7f));
 		Shader.setFloat(this.targetGL, "k", 0.5f);
         // Set the material properties
-        Shader.setColor(this.targetGL, "torchAmbientCoeff", new Color(0,0,200));
+        Shader.setColor(this.targetGL, "torchAmbientCoeff", new Color(1f,1f,1f));
         Shader.setColor(this.targetGL, "torchDiffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
 	}
 	
