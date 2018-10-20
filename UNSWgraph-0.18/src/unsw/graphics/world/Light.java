@@ -78,7 +78,7 @@ public class Light implements KeyListener{
 
 	public void setNightLightShader() {
 		activeShader.use(targetGL);
-		this.setSunlight();
+		this.setNightlight();
 	}
 	
 	/**
@@ -203,6 +203,7 @@ public class Light implements KeyListener{
         // Toggle Torch
         case KeyEvent.VK_BACK_SLASH:
         	torch = !torch;
+        	System.out.println("torch toggle");
             break;
         	        
 	    default:
