@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import com.jogamp.newt.event.MouseEvent;
-import com.jogamp.newt.event.MouseListener;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 
@@ -15,7 +13,6 @@ import unsw.graphics.Matrix4;
 import unsw.graphics.Shader;
 import unsw.graphics.Texture;
 import unsw.graphics.world.Rain;
-import unsw.graphics.geometry.Point2D;
 
 /**
  * COMP3421 Computer Graphics - UNSW
@@ -36,23 +33,27 @@ import unsw.graphics.geometry.Point2D;
  * 		- Implemented in unsw.graphics.world/Sun.java
  * - Add rain using particle effects (4 marks)
  * 		- Implemented in unsw.graphics.world/Rain.java
+ * 
+ * Hotkey Bindings:
+ * 	- 'WASD' = Movement
+ *  - 'Arrow Keys' = Movement
+ *  - 'F' = Fun Character Animation
+ *  - 'P' = Toggle Torch
+ *  - '[' = Toggle Day / Night
+ *  - ']' = Toggle DayNight Cycle (Sun colour / movement)
+ *  - '\' = Toggle Rain
+ *	- 'SPACE' = Toggle First/Third Person Camera View.
  */
-public class World extends Application3D implements MouseListener {
+public class World extends Application3D {
 
     private Terrain terrain;
     private Rain RainSystem;
     private Camera camera;
-    private Point2D myMousePoint = null;
-    private float rotateX = 0;
-    private float rotateY = 0;
-    private static final int ROTATION_SCALE = 1;
     private static final boolean USE_LIGHTING = true;
 
     private Texture texture;
     private Light modelLight;
     private Sun sun;
-    
-    private boolean useCamera;    
 
     public World(Terrain terrain){
     	super("Assignment 2", 800, 600);
@@ -60,7 +61,6 @@ public class World extends Application3D implements MouseListener {
         this.RainSystem = new Rain(terrain.getWidth(), terrain.getDepth());
         this.camera = new Camera(this);
         this.sun = new Sun(terrain.getWidth(), 2000);
-        useCamera = true;
     }
    
     /**
@@ -103,17 +103,7 @@ public class World extends Application3D implements MouseListener {
         	modelLight.torchOff();
         }
 
-
-        if (useCamera) {
-            camera.setView(gl);
-        } else {
-            frame = CoordFrame3D.identity()
-                    .translate(-3, 0.0f, -9f)
-                    .rotateX(rotateX)
-                    .rotateY(rotateY)
-                    .scale(1.0f, 1.0f, 1.0f);
-        }
-
+        camera.setView(gl);
 
         Shader.setInt(gl, "tex", 0);
         gl.glActiveTexture(GL.GL_TEXTURE0);
@@ -144,7 +134,6 @@ public class World extends Application3D implements MouseListener {
         texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
         // Setup the particle shader
         getWindow().addKeyListener(camera);
-        getWindow().addMouseListener(this);
     	getWindow().addKeyListener(modelLight);
     	getWindow().addKeyListener(sun);
 
@@ -166,47 +155,4 @@ public class World extends Application3D implements MouseListener {
         super.reshape(gl, width, height);
         Shader.setProjMatrix(gl, Matrix4.perspective(60, width/(float)height, 0.05f, 100));
 	}
-	
-	// Mouse movement for debug purposes
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        Point2D p = new Point2D(e.getX(), e.getY());
-
-        if (myMousePoint != null) {
-            float dx = p.getX() - myMousePoint.getX();
-            float dy = p.getY() - myMousePoint.getY();
-
-            // Note: dragging in the x dir rotates about y
-            //       dragging in the y dir rotates about x
-            rotateY += dx * ROTATION_SCALE;
-            rotateX += dy * ROTATION_SCALE;
-
-        }
-        myMousePoint = p;
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        myMousePoint = new Point2D(e.getX(), e.getY());
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) { }
-
-    @Override
-    public void mouseEntered(MouseEvent e) { }
-
-    @Override
-    public void mouseExited(MouseEvent e) { }
-
-    @Override
-    public void mousePressed(MouseEvent e) { }
-
-    @Override
-    public void mouseReleased(MouseEvent e) { }
-
-    @Override
-    public void mouseWheelMoved(MouseEvent e) { 
-    	useCamera ^= true;
-    }
 }
