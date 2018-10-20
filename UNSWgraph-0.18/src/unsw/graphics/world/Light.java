@@ -221,8 +221,8 @@ public class Light implements KeyListener{
 		
 	}
 	
-    public void destroy() {
-		activeShader.destroy(targetGL);
+    public void destroy(GL3 gl) {
+		activeShader.destroy(gl);
 	}
 
 	
