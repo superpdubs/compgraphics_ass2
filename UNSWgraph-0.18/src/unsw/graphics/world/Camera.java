@@ -49,11 +49,7 @@ public class Camera implements KeyListener {
     public Point3D getPosition() {
     	return this.myPos;
     }
-    
-    public Point3D getCharacterPosition() {
-    	return player.getPosition();
-    }
-    
+
     /**
      * Set the view transform. Take a step back if Third Person Camera is active.
      * 
