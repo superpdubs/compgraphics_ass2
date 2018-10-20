@@ -27,7 +27,7 @@ import static com.jogamp.opengl.GL.GL_BLEND;
  */
 public class Rain implements KeyListener {
 
-    private static final int MAX_PARTICLES = 1000; // max number of particles
+    private static final int MAX_PARTICLES = 2000; // max number of particles
     private Particle[] particles = new Particle[MAX_PARTICLES];
 
     // Set when the particles first burst
@@ -98,7 +98,7 @@ public class Rain implements KeyListener {
         gl.glVertexAttribPointer(Shader.COLOR, 4, GL.GL_FLOAT, false, 0, 0);
 
         // Set the point size
-        gl.glPointSize(50);
+        gl.glPointSize(100);
     }
 
 
@@ -106,6 +106,7 @@ public class Rain implements KeyListener {
         // Setup the particle shader
 
         gl.glEnable(GL_BLEND);
+        gl.glDisable(GL.GL_DEPTH_TEST);
         gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
         shader.use(gl);
         //gl.glEnable(GL_BLEND);
@@ -143,7 +144,7 @@ public class Rain implements KeyListener {
         gl.glActiveTexture(GL.GL_TEXTURE0);
         gl.glBindTexture(GL2.GL_TEXTURE_2D, texture.getId());
 
-        CoordFrame3D frame = CoordFrame3D.identity().translate(0, 1, -10);
+        CoordFrame3D frame = CoordFrame3D.identity().translate(0, 10, -0);
         Shader.setModelMatrix(gl, frame.getMatrix());
         gl.glDrawArrays(GL.GL_POINTS, 0, particles.length);
 
@@ -169,6 +170,7 @@ public class Rain implements KeyListener {
         if (burst)
             burst = false;
         gl.glDisable(GL_BLEND);
+        gl.glEnable(GL.GL_DEPTH_TEST);
     }
 
     public void destroy(GL3 gl) {
@@ -202,7 +204,8 @@ public class Rain implements KeyListener {
         public void burst() {
             // Set the initial position
             x = y = z = 0.0f;
-
+            x = rand.nextFloat() * 3;
+            z = rand.nextFloat() * 3;
             // Generate a random speed and direction in polar coordinate, then
             // resolve
             // them into x and y.

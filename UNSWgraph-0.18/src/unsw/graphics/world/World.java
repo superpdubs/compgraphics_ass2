@@ -92,14 +92,17 @@ public class World extends Application3D implements MouseListener {
         Shader.setPenColor(gl, Color.GREEN);
         terrain.drawTerrain(gl, frame);
 
+        RainSystem.display(gl);
         if (modelLight.getToggle()) {
+            modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
+            modelLight.setCameraPosition(this.camera.getPosition());
         	modelLight.setSunlight();
         } else {
-        	modelLight.setCameraPosition(this.camera.getPosition());
+            modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
+            modelLight.setCameraPosition(this.camera.getPosition());
         	modelLight.setNightlight();
         }
 
-        RainSystem.display(gl);
 	}
 
     public Terrain getTerrain() {
