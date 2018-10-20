@@ -125,7 +125,8 @@ public class World extends Application3D {
 		modelLight.destroy(gl);
 		terrain.destroy(gl);
 		camera.destroy(gl);
-		//TO DO: destroy on all children
+		RainSystem.destroy(gl);
+		texture.destroy(gl);
 	}
 
 	@Override
