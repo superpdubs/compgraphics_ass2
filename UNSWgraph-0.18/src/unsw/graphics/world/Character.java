@@ -133,7 +133,8 @@ public class Character {
 	    		curAnim ++;
 	    		animCooldown --;
 	    	}
-	    	// Stop the animation from looping once it reaches the end of the whole walk motion
+	    	// Stop the animation from looping once it reaches the end of the whole walk motion. 
+	    	// Reset to neutral position. (curAnim = 0)
 	    	if (curAnim >= animLength.get(3)) {
 	    		curAnim = animLength.get(0);
 	    		if (animCooldown <= 0) {
@@ -141,7 +142,7 @@ public class Character {
 	    			isWalking = false;
 	    		}
 	    	// Stop the animation from continuing once it reaches one 'step'. Cooldown and user key
-	    	// will trigger a loop.
+	    	// will trigger a loop. Reset to neutral position.
 	    	} else if (curAnim == animLength.get(2)) {
 	    		if (animCooldown <= 0) {
 	    			curAnim = 0;
@@ -159,16 +160,21 @@ public class Character {
     			walk.get(curAnim).draw(gl, frame.translate(myPos).rotateY(myAngle).scale(myScale, myScale, myScale));
     		}
 	    	
-	    	fps ++;
+	    	fps ++; // increment counter, and if enough draw calls have passed, animate the next frame.
 	    	if (fps >= animSpeed) {
 	    		fps = 0;
 	    		curAnim ++;
 	    	}
+	    	
+	    	// Stop the animation once it reaches the end of the motion. 
+	    	// Reset to neutral position. (curAnim = 0)
 	    	if (curAnim >= animLength.get(5)) {
 	    		curAnim = 0;
 	    		isSlashing = false;
 	    	}
-    	} 
+    	}
+    	
+    	// if neutral position, face the last direction moved, and reset counter.
     	if (!isWalking && !isSlashing){
     		if (moveBackwards) {
     			walk.get(0).draw(gl, frame.translate(myPos).rotateY(myAngle + 180).scale(myScale, myScale, myScale));
