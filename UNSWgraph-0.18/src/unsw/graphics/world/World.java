@@ -39,6 +39,7 @@ public class World extends Application3D implements MouseListener {
     private TriangleMesh model;
     private Texture texture;
     private Light modelLight;
+    private Sun sun;
     
     private boolean useCamera;    
 
@@ -47,6 +48,7 @@ public class World extends Application3D implements MouseListener {
         this.terrain = terrain;
         
         this.camera = new Camera(this);
+        this.sun = new Sun();
         useCamera = true;
     }
    
@@ -88,11 +90,15 @@ public class World extends Application3D implements MouseListener {
     	modelLight.setCameraPosition(this.camera.getPosition());
     	modelLight.setAvatarPosition(this.camera.getCharacterPosition());
     	
-        if (modelLight.getToggle()) {
-        	modelLight.setSunlight();
-        } else {
-        	modelLight.setNightlight();
-        }
+    	if (sun.getToggle()) {
+    		sun.setLight(modelLight);
+    	} else {
+			if (modelLight.getToggle()) {
+				modelLight.setSunlight();
+			} else {
+				modelLight.setNightlight();
+			}
+    	}
         
         if (modelLight.getTorch()) {
         	modelLight.torchOn();
@@ -123,6 +129,7 @@ public class World extends Application3D implements MouseListener {
         getWindow().addKeyListener(camera);
         getWindow().addMouseListener(this);
     	getWindow().addKeyListener(modelLight);
+    	getWindow().addKeyListener(sun);
 
         
         if (USE_LIGHTING && this.terrain.getSunlight() != null) {

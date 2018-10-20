@@ -92,6 +92,25 @@ public class Light implements KeyListener{
         Shader.setFloat(this.targetGL, "envPhongExp", 8f);
 	}
 	
+	public void setLight(Point3D lightPos, Color lightInt, Color AmbInt, Color AmbCoeff, Color DiffCoeff, Color SpecCoeff, float PhongExp) {    
+		System.out.println("Test");
+		
+		//Implement Lighting/Nightlight
+		Shader.setPoint3D(this.targetGL, "envLightPos", lightPos);
+		Shader.setColor(this.targetGL, "envLightIntensity", lightInt);
+		Shader.setColor(this.targetGL, "envAmbientIntensity", AmbInt);
+		
+		// Set the material properties
+		Shader.setColor(this.targetGL, "envAmbientCoeff", AmbCoeff);
+		Shader.setColor(this.targetGL, "envDiffuseCoeff", DiffCoeff);
+		Shader.setColor(this.targetGL, "envSpecularCoeff", SpecCoeff);
+		Shader.setFloat(this.targetGL, "envPhongExp", PhongExp);        
+	}
+	
+	public Point3D getLightPos() {
+		return this.lightPosition;
+	}
+	
 	public void torchOn() {
 		// test torch light
 		Shader.setPoint3D(this.targetGL, "torchLightPos", this.avatarPosition.translate(0, 1, 0));
