@@ -14,9 +14,8 @@ import unsw.graphics.geometry.TriangleMesh;
 import unsw.graphics.scene.PolygonalSceneObject;
 
 /**
- * COMMENT: Comment Road 
- *
- * @author malcolmr
+ * Class Road using the extrusion of the specific set of splines, and produces and mesh to be drawn
+ * with
  */
 public class Road {
 
@@ -41,45 +40,52 @@ public class Road {
     public void setAltitude(float altitude) {
         this.altitude = altitude;
     }
-    public void makeRoadMesh() {
 
+    /**
+     * Makes the road's mesh based on extruding the road to the left and right of the given bezier line.
+     */
+    public void makeRoadMesh() {
         ArrayList<Point3D> points = new ArrayList<Point3D>();
         ArrayList<Point2D> texCoord = new ArrayList<Point2D>();
         ArrayList<Integer> indices = new ArrayList<Integer>();
-        System.out.println("road");
         float segments = 32;
 
+
         float dt = 1.0f/segments;
-        float epsilon = (float) 0.000f;
+        //Get each control segment, and calculate parts of each segment
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < segments; j++) {
+                //Here we first divide each control segment into 32 smaller segments
                 float t = j * dt;
-                System.out.println((0 + epsilon));
 
+                //Get current point for the specific small segment, then further find the next point, and previous point
+                //The next point and previous point is used to calculate the tanget at current point.
                 Point3D currPoint = new Point3D(point(t + i).getX(), (altitude), point(t + i).getY());
                 Point3D nextPoint = null;
                 if (t + dt >= 1)  nextPoint = new Point3D(point(t + i).getX(), (altitude), point(t + i).getY());
-                if (t + dt < 1) nextPoint = new Point3D(point(t + dt + i).getX(), (altitude ), point(t + dt + i).getY());
+                if (t + dt < 1) nextPoint = new Point3D(point(t + dt + i).getX(), (altitude), point(t + dt + i).getY());
                 Point3D prevPoint = null;
                 if (t - dt < 0) prevPoint = new Point3D(point(0 + i).getX(), (altitude), point(0 + i).getY());
                 if (t - dt >= 0) prevPoint = new Point3D(point(t - dt + i).getX(), (altitude), point(t - dt + i).getY());
 
+                //Tangent and normal to Tangent towards the x/z position vectors
                 Vector3 tangentVec = (nextPoint.minus(prevPoint).normalize());
-                Vector3 normalVec = new Vector3(-tangentVec.getZ(), (0 ), tangentVec.getX());
+                Vector3 normalVec = new Vector3(-tangentVec.getZ(), 0, tangentVec.getX());
 
+                //Extrude the shape of the points by width/2 and -width/2
                 Point3D left = currPoint.translate(normalVec.scale(width/2));
                 Point3D right = currPoint.translate(normalVec.scale(-width/2));
-                System.out.println("l: " + left.getX() + " y: " + left.getY());
-                System.out.println("r: " + right.getX() + " y: " + right.getY());
-                System.out.println("c: " + currPoint.getX() + " y: " + currPoint.getY());
+
                 points.add(left);
                 points.add(right);
-                texCoord.add(new Point2D(left.getX(), left.getZ()));
 
+                //Add tex coordinates
+                texCoord.add(new Point2D(left.getX(), left.getZ()));
                 texCoord.add(new Point2D(right.getX(), right.getZ()));
             }
         }
 
+        //Add a triangles to relevant mesh, with correspondence to points list
         for (int i = 0; i < points.size(); i++) {
             if (i + 3 >= points.size()) continue;
             indices.add(i);
