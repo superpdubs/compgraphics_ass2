@@ -51,6 +51,7 @@ public class Character {
     	animLength.add(4, 23);	//slash start
     	animLength.add(5, 29);	//slash end
     	
+    	// Load model mesh
     	try {
     		body = new TriangleMesh("res/models/MadBunny_midRes/madbunny_walk00.ply");
     	} catch (Exception e) {
@@ -59,6 +60,7 @@ public class Character {
     	
     	this.walk = new ArrayList<TriangleMesh>();
     	
+    	// set animation / frame rate
         for (int i = 0; i <= animLength.get(3); i++) {
         	String frameNum = "";
         	if (i < 10) {
@@ -111,6 +113,7 @@ public class Character {
         body.destroy(gl);
     }
     
+    // Draw and setup character textures. 
     public void drawCharacter(GL3 gl) {
         Shader.setInt(gl, "tex", 0);
         gl.glActiveTexture(GL.GL_TEXTURE0);
@@ -118,8 +121,6 @@ public class Character {
         Shader.setPenColor(gl, Color.WHITE);
         
     	CoordFrame3D frame = CoordFrame3D.identity();
-//    	System.out.println(myAngle);
-    	//body.draw(gl, frame.translate(myPos).rotateY(myAngle).scale(myScale, myScale, myScale));
     	
     	if (isWalking && !isSlashing) {    		
     		if (curAnim == 0) {
@@ -203,6 +204,10 @@ public class Character {
     	}
     }
     
+    /**
+     * Animate character/avatar movement
+     * @param forward
+     */
     public void isMoving(int forward) {
     	if (forward < 0) {
     		this.moveBackwards = true;
@@ -215,12 +220,18 @@ public class Character {
     	if (!isSlashing) animSpeed = 3;
     }
     
+    /**
+     * Animate character slashing
+     */
     public void isSlashing() {
     	this.isSlashing = true;
     	curAnim = animLength.get(4);
     	animSpeed = 4;
     }
     
+    /**
+     * Reset Animation settings to predetermined values
+     */
     public void resetAnimation() {
     	curAnim = 0;
     	fps = 0;
