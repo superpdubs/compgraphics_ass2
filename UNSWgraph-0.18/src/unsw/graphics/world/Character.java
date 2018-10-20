@@ -229,4 +229,9 @@ public class Character {
     	isWalking = false;
     	isSlashing = false;
     }
+    
+    public Point3D getPosition() {
+    	return this.myPos;
+    }
+    
 }

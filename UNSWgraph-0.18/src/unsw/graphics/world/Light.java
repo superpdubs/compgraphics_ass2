@@ -17,6 +17,8 @@ public class Light implements KeyListener{
 	private GL3 targetGL;
 	private boolean toggleLight;
 	private Point3D cameraPosition;
+	private Point3D avatarPosition;
+	private boolean torch;
 	
 	/**
 	 * Light Constructor
@@ -24,11 +26,13 @@ public class Light implements KeyListener{
 	 * @param gl
 	 * @param lightIndex - 1 sunlight & null torch, 2 night & torch
 	 */
-	public Light(GL3 gl, int lightIndex, Point3D lightPosition, Point3D cameraPosition) {
+	public Light(GL3 gl, int lightIndex, Point3D lightPosition, Point3D cameraPosition, Point3D avatarPosition) {
 		this.lightIndex = lightIndex;
 		this.targetGL = gl;
 		this.lightPosition = lightPosition;
 		this.cameraPosition = cameraPosition;
+		this.avatarPosition = avatarPosition;
+		
 
 		activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
 		activeShader.use(targetGL);
@@ -36,13 +40,16 @@ public class Light implements KeyListener{
 		switch(lightIndex) {
 			case(1):
 				this.setSunlight();
+	        	this.torchOff();
 				this.toggleLight = true;
+				this.torch = false;
 				break;
 			case(2):
 				this.setNightlight();
+	        	this.torchOn();
 				this.toggleLight = false;
+				this.torch = true;
 				break;
-			case(3):
 			default:
 				break;
 		}
@@ -51,6 +58,10 @@ public class Light implements KeyListener{
 	
 	public boolean getToggle() {
 		return toggleLight;
+	}
+	
+	public boolean getTorch() {
+		return torch;
 	}
 	
 	public void setSunlight() {    
@@ -63,16 +74,7 @@ public class Light implements KeyListener{
         Shader.setColor(this.targetGL, "envAmbientCoeff", Color.WHITE);
         Shader.setColor(this.targetGL, "envDiffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
         Shader.setColor(this.targetGL, "envSpecularCoeff", new Color(0.6f, 0.6f, 0.6f));
-        Shader.setFloat(this.targetGL, "envPhongExp", 8f);
-		
-		// test torch light
-		Shader.setPoint3D(this.targetGL, "torchLightPos", this.cameraPosition);
-        Shader.setColor(this.targetGL, "torchLightIntensity", Color.WHITE);
-        Shader.setColor(this.targetGL, "torchAmbientIntensity", new Color(0.0f, 0.0f, 0.0f));
-		Shader.setFloat(this.targetGL, "k", 1f);
-        // Set the material properties
-        Shader.setColor(this.targetGL, "torchAmbientCoeff", new Color(0,0,0));
-        Shader.setColor(this.targetGL, "torchDiffuseCoeff", new Color(0.0f, 0.0f, 0.0f));
+        Shader.setFloat(this.targetGL, "envPhongExp", 8f);        
 	}
 	
 	public void setNightlight() {
@@ -86,15 +88,28 @@ public class Light implements KeyListener{
         Shader.setColor(this.targetGL, "envDiffuseCoeff", new Color(0.3f, 0.3f, 0.3f));
         Shader.setColor(this.targetGL, "envSpecularCoeff", new Color(0.1f, 0.1f, 0.1f));
         Shader.setFloat(this.targetGL, "envPhongExp", 8f);
-		
+	}
+	
+	public void torchOn() {
 		// test torch light
-		Shader.setPoint3D(this.targetGL, "torchLightPos", this.cameraPosition);
+		Shader.setPoint3D(this.targetGL, "torchLightPos", this.avatarPosition.translate(0, 1, 0));
         Shader.setColor(this.targetGL, "torchLightIntensity", Color.WHITE);
         Shader.setColor(this.targetGL, "torchAmbientIntensity", new Color(0.1f, 0.1f, 0.1f));
 		Shader.setFloat(this.targetGL, "k", 0.5f);
         // Set the material properties
         Shader.setColor(this.targetGL, "torchAmbientCoeff", new Color(0,0,200));
         Shader.setColor(this.targetGL, "torchDiffuseCoeff", new Color(0.6f, 0.6f, 0.6f));
+	}
+	
+	public void torchOff() {
+		// test torch light
+		Shader.setPoint3D(this.targetGL, "torchLightPos", this.avatarPosition.translate(0, 1, 0));
+        Shader.setColor(this.targetGL, "torchLightIntensity", Color.WHITE);
+        Shader.setColor(this.targetGL, "torchAmbientIntensity", new Color(0.0f, 0.0f, 0.0f));
+		Shader.setFloat(this.targetGL, "k", 1f);
+        // Set the material properties
+        Shader.setColor(this.targetGL, "torchAmbientCoeff", new Color(0,0,0));
+        Shader.setColor(this.targetGL, "torchDiffuseCoeff", new Color(0.0f, 0.0f, 0.0f));
 	}
 	
 	public void setCameraPosition(Point3D position) {
@@ -105,22 +120,26 @@ public class Light implements KeyListener{
 		return this.cameraPosition;
 	}
 	
+	public void setAvatarPosition(Point3D position) {
+		this.avatarPosition = position;
+	}
+	
+	public Point3D getAvatarPosition() {
+		return this.avatarPosition;
+	}
+	
 	@Override
     public void keyPressed(KeyEvent e) {
    	
         switch(e.getKeyCode()) {
         //Night and Day toggle
         case KeyEvent.VK_OPEN_BRACKET:
-        	if (toggleLight == false) {
-        		toggleLight = true;
-        	} else if (toggleLight == true){
-            	toggleLight = false;
-            }
+        	toggleLight = !toggleLight;
             break;
             
         // Toggle Torch
         case KeyEvent.VK_CLOSE_BRACKET:
-        	System.out.println("close bracket");
+        	torch = !torch;
             break;
 
         }
