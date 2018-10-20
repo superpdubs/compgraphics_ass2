@@ -99,6 +99,7 @@ public class Character {
     	for (int i = 0; i < walk.size(); i++) {
     		walk.get(i).destroy(gl);
     	}
+    	texture.destroy(gl);
     }
     
     // Draw and setup character textures. 

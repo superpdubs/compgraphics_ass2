@@ -3,6 +3,8 @@ package unsw.graphics.world;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jogamp.opengl.GL3;
+
 import unsw.graphics.Vector3;
 import unsw.graphics.geometry.Point2D;
 import unsw.graphics.geometry.Point3D;
@@ -182,5 +184,7 @@ public class Road {
         throw new IllegalArgumentException("" + i);
     }
 
-
+    public void destroy(GL3 gl) {
+    	this.roadMesh.destroy(gl);
+    }
 }
