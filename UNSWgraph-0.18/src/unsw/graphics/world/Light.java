@@ -12,6 +12,7 @@ import unsw.graphics.geometry.Point3D;
 public class Light implements KeyListener{
 
 	private Shader activeShader;
+	private Shader sunShader;
 	private int lightIndex;
 	private Point3D lightPosition;
 	private GL3 targetGL;
@@ -25,6 +26,7 @@ public class Light implements KeyListener{
 	 * @param lightIndex - 1 sunlight, 2 night, 3 torch and point light
 	 */
 	public Light(GL3 gl, int lightIndex, Point3D lightPosition, Point3D cameraPosition) {
+		
 		this.lightIndex = lightIndex;
 		this.targetGL = gl;
 		this.lightPosition = lightPosition;
@@ -38,14 +40,14 @@ public class Light implements KeyListener{
 				//activeShader = new Shader(gl, "shaders/vertex_particle.glsl",
 				//		"shaders/fragment_particle.glsl");
 
-				activeShader.use(targetGL);
+				sunShader.use(targetGL);
 				this.setSunlight();
 				this.toggleLight = true;
 				break;
 			case(2):
-				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_tex_phong_mod.glsl");
+				//activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_tex_phong_mod.glsl");
 				//activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_testSpotlight.glsl");
-				//activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
+				activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
 				//activeShader = new Shader(gl, "shaders/vertex_particle.glsl",
 				//		"shaders/fragment_particle.glsl");
 				activeShader.use(targetGL);
@@ -62,7 +64,17 @@ public class Light implements KeyListener{
 	public boolean getToggle() {
 		return toggleLight;
 	}
-	
+
+	public void setSunlightShader() {
+		activeShader.use(targetGL);
+		this.setSunlight();
+	}
+
+	public void setNightLightShader() {
+		activeShader.use(targetGL);
+		this.setSunlight();
+	}
+
 	public void setSunlight() {
         //Implement Lighting/Sunlight
 //        Shader.setPoint3D(this.targetGL, "lightPos", this.lightPosition);

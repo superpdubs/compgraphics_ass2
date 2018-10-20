@@ -23,7 +23,7 @@ uniform vec3 torchAmbientIntensity;
 uniform vec3 torchAmbientCoeff;
 uniform vec3 torchDiffuseCoeff;
 
-// out vec4 fragColor;
+in vec4 fragColor;
 
 uniform float k;
 
@@ -48,9 +48,9 @@ void main() {
 		envLightPos, envLightIntensity, envAmbientIntensity, envAmbientCoeff, envDiffuseCoeff,
 		envSpecularCoeff, envPhongExp );
 
-	outputColor += torch( input_color, view_matrix, viewPosition, k, torchLightPos, torchLightIntensity,
-		torchAmbientIntensity, torchAmbientCoeff, torchDiffuseCoeff);
-
+	//outputColor += torch( input_color, view_matrix, viewPosition, k, torchLightPos, torchLightIntensity,
+	//	torchAmbientIntensity, torchAmbientCoeff, torchDiffuseCoeff);
+    //outputColor = normalize(outputColor);
 }
 
 vec4 envLight( vec4 input_color, mat4 view_matrix, vec4 viewPosition, vec3 m, sampler2D tex, vec2 texCoordFrag,
@@ -74,8 +74,9 @@ vec4 envLight( vec4 input_color, mat4 view_matrix, vec4 viewPosition, vec3 m, sa
 
     vec4 ambientAndDiffuse = vec4(ambient + diffuse, 1);
 
-    return ambientAndDiffuse*input_color*texture(tex, texCoordFrag) + vec4(specular, 1);
-
+   // return ambientAndDiffuse*input_color*texture(tex, texCoordFrag)*fragColor  + vec4(specular, 1);
+    //vec4 test = max(vec4(0), fragColor * texture(tex, gl_PointCoord));
+    return  ambientAndDiffuse*input_color*texture(tex, texCoordFrag)  + vec4(specular, 1);
 }
 
 vec4 torch( vec4 input_color, mat4 view_matrix, vec4 viewPosition, float k, 
@@ -94,5 +95,5 @@ vec4 torch( vec4 input_color, mat4 view_matrix, vec4 viewPosition, float k,
     vec3 intensity = ambient + attenuation*diffuse;
     
     return vec4(intensity,1)*input_color;
-
+    //return input_color*fragColor*texture(tex, gl_PointCoord);
 }

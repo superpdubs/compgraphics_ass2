@@ -115,7 +115,7 @@ public class Character {
         Shader.setPenColor(gl, Color.WHITE);
         
     	CoordFrame3D frame = CoordFrame3D.identity();
-    	System.out.println(myAngle);
+    	//System.out.println(myAngle);
     	//body.draw(gl, frame.translate(myPos).rotateY(myAngle).scale(myScale, myScale, myScale));
     	
     	if (isWalking && !isSlashing) {    		
@@ -153,7 +153,7 @@ public class Character {
 	    		}
 	    	}
     	} 
-    	
+
     	if (isSlashing) {
     		isWalking = false;
     		
