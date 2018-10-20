@@ -70,7 +70,7 @@ public class Light implements KeyListener{
       //Implement Lighting/Nightlight
         Shader.setPoint3D(this.targetGL, "envLightPos", this.lightPosition);
         Shader.setColor(this.targetGL, "envLightIntensity", Color.WHITE);
-        Shader.setColor(this.targetGL, "envAmbientIntensity", new Color(0.2f, 0.2f, 0.2f));
+        Shader.setColor(this.targetGL, "envAmbientIntensity", new Color(0.3f, 0.3f, 0.3f));
 		
         // Set the material properties
         Shader.setColor(this.targetGL, "envAmbientCoeff", Color.WHITE);

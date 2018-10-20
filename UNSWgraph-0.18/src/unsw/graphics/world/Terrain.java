@@ -33,7 +33,7 @@ public class Terrain {
     private List<Tree> trees;
     private List<Road> roads;
     private Vector3 sunlight;
-    
+    private Texture textureRoad;
     private TriangleMesh meshes;
 
     /**
@@ -49,6 +49,7 @@ public class Terrain {
         trees = new ArrayList<Tree>();
         roads = new ArrayList<Road>();
         this.sunlight = sunlight;
+
     }
 
     public List<Tree> trees() {
@@ -137,7 +138,7 @@ public class Terrain {
 //        return altitude;
         
         // Jie Version
-        
+
         float altitudeZ = 0;
         float lowerX = (float) Math.floor(x);
         float upperX = (float) Math.ceil(x);
@@ -151,26 +152,26 @@ public class Terrain {
         if (upperZ - lowerZ == 0) {
             return (((x - lowerX)/(upperX - lowerX)) * altitudes[(int) upperX][(int) lowerZ])  + (((upperX - x)/(upperX - lowerX)) * altitudes[(int) lowerX][(int) lowerZ]);
         }
-        if (diff <= 0) {
+        if (diff >= 0) {
             float polatedlowerX =  ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * lowerX;
             float polatedupperX = ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
 
-            float polatedLowerZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) lowerZ];
-            float polatedUpperZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
+            float polatedLowerY = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) lowerZ];
+            float polatedUpperY = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
 
-            altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperZ)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerZ);
+            altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperY)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerY);
 
-//            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + x + " " + z + "yoyoyoyoyo:" + altitudeZ);
+           // System.out.println("polatedlowerX: " + polatedlowerX+ " polatedUpperZ: " + polatedupperX + " altitude: " + x + " " + z + "CAL:" + ((x - polatedlowerX)/(polatedupperX - polatedlowerX)) +    "yoyoyoyoyo:" + altitudeZ);
         } else {
             float polatedupperX =  ((z - lowerZ)/(upperZ - lowerZ)) * upperX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
             float polatedlowerX = ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
 
-            float polatedUpperZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
-            float polatedLowerZ = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
+            float polatedUpperY = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
+            float polatedLowerY = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
 
-            altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperZ)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerZ);
+            altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperY)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerY);
 
-//            System.out.println("polatedlowerX: " + polatedLowerZ + " polatedUpperZ: " + polatedUpperZ + " altitude: " + (z - lowerZ) + " " + (upperZ - z) + "x: " +  x + "yoyoyoyoyo:" + altitudeZ);
+            //System.out.println("polatedlowerX: " + polatedlowerX + " polatedUpperZ: " + polatedupperX+ " altitude: " + x + " " + (z) + "x: " +  ((x - polatedlowerX)) + "yoyoyoyoyo:" + altitudeZ);
         }
 
         return altitudeZ;
@@ -248,6 +249,9 @@ public class Terrain {
     public void initTerrain(GL3 gl) {
         makeTerrainMesh();
         meshes.init(gl);
+
+
+        this.textureRoad = new Texture(gl, "res/textures/rock.bmp", "bmp", false);
         for (Tree t: trees) {
             t.getTreeModel().init(gl);
         }
@@ -272,15 +276,13 @@ public class Terrain {
         }
 
         Shader.setInt(gl, "tex", 0);
-        Texture texture = new Texture(gl, "res/textures/rock.bmp", "bmp", false);
         gl.glActiveTexture(GL.GL_TEXTURE0);
-        gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getId());
+        gl.glBindTexture(GL.GL_TEXTURE_2D, textureRoad.getId());
 
-        Shader.setPenColor(gl, Color.WHITE);
-        //gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
-        //gl.glPolygonOffset(3.0f, 1.0f);
         gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
         gl.glPolygonOffset(-1.0f, -1.0f);
+        Shader.setPenColor(gl, Color.WHITE);
+
         for (Road r: roads) {
             r.getRoadMesh().draw(gl, frame);
         }

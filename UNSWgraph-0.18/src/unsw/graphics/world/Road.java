@@ -47,7 +47,7 @@ public class Road {
         ArrayList<Point2D> texCoord = new ArrayList<Point2D>();
         ArrayList<Integer> indices = new ArrayList<Integer>();
         System.out.println("road");
-        float segments = 16;
+        float segments = 32;
 
         float dt = 1.0f/segments;
         float epsilon = (float) 0.000f;

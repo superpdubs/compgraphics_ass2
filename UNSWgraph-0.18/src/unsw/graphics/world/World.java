@@ -72,7 +72,7 @@ public class World extends Application3D implements MouseListener {
             camera.setView(gl);
         } else {
             frame = CoordFrame3D.identity()
-                    .translate(-2, 0.0f, -20f)
+                    .translate(-3, 0.0f, -9f)
                     .rotateX(rotateX)
                     .rotateY(rotateY)
                     .scale(1.0f, 1.0f, 1.0f);
@@ -126,7 +126,7 @@ public class World extends Application3D implements MouseListener {
 
         
         if (USE_LIGHTING && this.terrain.getSunlight() != null) {
-        	modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition(), this.camera.getCharacterPosition());
+        	modelLight = new Light(gl, 1 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition(), this.camera.getCharacterPosition());
         	getWindow().addKeyListener(modelLight);
         }
         
