@@ -9,8 +9,8 @@ import unsw.graphics.geometry.Point3D;
 import unsw.graphics.geometry.TriangleMesh;
 
 /**
- * Class Road using the extrusion of the specific set of splines, and produces and mesh to be drawn
- * with
+ * Class Road using the extrusion of the specific set of splines, and produces a triangle mesh to be drawn
+ * with.
  */
 public class Road {
 
