@@ -49,6 +49,14 @@ public class Camera implements KeyListener {
                 .scale(myScale, myScale, myScale);
     }
 
+    public CoordFrame3D getViewFrame() {
+        CoordFrame3D viewFrame = CoordFrame3D.identity()
+                .scale(1/myScale, 1/myScale, 1/myScale)
+                .rotateY(-myAngle)
+                .translate(-myPos.getX(), -myPos.getY(), -myPos.getZ());
+
+        return viewFrame;
+    }
     /**
      * Set the view transform
      * 

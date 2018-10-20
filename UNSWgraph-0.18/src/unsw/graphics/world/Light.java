@@ -12,6 +12,7 @@ import unsw.graphics.geometry.Point3D;
 public class Light implements KeyListener{
 
 	private Shader activeShader;
+
 	private GL3 targetGL;
 	private boolean toggleLight;
 	private boolean torch;
@@ -25,6 +26,7 @@ public class Light implements KeyListener{
 	 * @param lightIndex - 1 sunlight & null torch, 2 night & torch
 	 */
 	public Light(GL3 gl, int lightIndex, Point3D lightPosition, Point3D cameraPosition) {
+
 		this.targetGL = gl;
 		this.lightPosition = lightPosition;
 		this.cameraPosition = cameraPosition;
@@ -68,12 +70,22 @@ public class Light implements KeyListener{
 	public boolean getTorch() {
 		return torch;
 	}
+
+	public void setSunlightShader() {
+		activeShader.use(targetGL);
+		this.setSunlight();
+	}
+
+	public void setNightLightShader() {
+		activeShader.use(targetGL);
+		this.setSunlight();
+	}
 	
 	/**
 	 * Sets predetermined values for Day in a static environment
 	 */
-	public void setSunlight() {    
-      //Implement Lighting
+	public void setSunlight() {
+      //Implement Lighting/Nightlight
         Shader.setPoint3D(this.targetGL, "envLightPos", this.lightPosition);
         Shader.setColor(this.targetGL, "envLightIntensity", Color.WHITE);
         Shader.setColor(this.targetGL, "envAmbientIntensity", new Color(0.3f, 0.3f, 0.3f));

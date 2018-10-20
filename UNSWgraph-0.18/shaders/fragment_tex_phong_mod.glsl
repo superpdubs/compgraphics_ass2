@@ -22,7 +22,7 @@ in vec4 viewPosition;
 in vec3 m;
 
 in vec2 texCoordFrag;
-
+in vec4 fragColor;
 void main()
 {
     // Compute the s, v and r vectors

@@ -115,7 +115,7 @@ public abstract class Application implements GLEventListener {
 
     /**
      * This is called to draw each frame.
-     * 
+     
      * @param gl
      */
     public abstract void display(GL3 gl);

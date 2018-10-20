@@ -14,6 +14,7 @@ import unsw.graphics.CoordFrame3D;
 import unsw.graphics.Matrix4;
 import unsw.graphics.Shader;
 import unsw.graphics.Texture;
+import unsw.graphics.world.Rain;
 import unsw.graphics.geometry.Point2D;
 import unsw.graphics.geometry.Point3D;
 import unsw.graphics.geometry.TriangleMesh;
@@ -28,7 +29,7 @@ import unsw.graphics.geometry.TriangleMesh;
 public class World extends Application3D implements MouseListener {
 
     private Terrain terrain;
-    
+    private Rain RainSystem;
     private Camera camera;
     private Point2D myMousePoint = null;
     private float rotateX = 0;
@@ -46,10 +47,11 @@ public class World extends Application3D implements MouseListener {
     public World(Terrain terrain){
     	super("Assignment 2", 800, 600);
         this.terrain = terrain;
-        
+        this.RainSystem = new Rain(terrain.getWidth(), terrain.getDepth());
         this.camera = new Camera(this);
         this.sun = new Sun(terrain.getWidth(), 2000);
         useCamera = true;
+       // setBackground(Color.BLACK);
     }
    
     /**
@@ -70,6 +72,8 @@ public class World extends Application3D implements MouseListener {
         
         CoordFrame3D frame = CoordFrame3D.identity();
 
+        // modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
+
         if (useCamera) {
             camera.setView(gl);
         } else {
@@ -83,27 +87,31 @@ public class World extends Application3D implements MouseListener {
         Shader.setInt(gl, "tex", 0);
         gl.glActiveTexture(GL.GL_TEXTURE0);
         gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getId());
+
         Shader.setPenColor(gl, Color.GREEN);
-        
+
         terrain.drawTerrain(gl, frame);
+
+        RainSystem.display(gl, camera.getViewFrame());
+        modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
+        modelLight.setCameraPosition(this.camera.getPosition());
         
-    	modelLight.setCameraPosition(this.camera.getPosition());
-    	
     	if (sun.getToggle()) {
     		sun.setLight(modelLight);
     	} else {
-			if (modelLight.getToggle()) {
-				modelLight.setSunlight();
-			} else {
-				modelLight.setNightlight();
-			}
+	        if (modelLight.getToggle()) {
+	            modelLight.setSunlight();
+	        } else {
+	            modelLight.setNightlight();
+	        }
     	}
-        
+    	
         if (modelLight.getTorch()) {
         	modelLight.torchOn();
         } else {
         	modelLight.torchOff();
         }
+
         
         
 	}
@@ -123,20 +131,28 @@ public class World extends Application3D implements MouseListener {
 	
 		super.init(gl);
         terrain.initTerrain(gl);
-
         texture = new Texture(gl, "res/textures/grass.bmp", "bmp", false);
+        // Setup the particle shader
         getWindow().addKeyListener(camera);
         getWindow().addMouseListener(this);
     	getWindow().addKeyListener(modelLight);
     	getWindow().addKeyListener(sun);
 
-        
+        getWindow().addKeyListener(this.RainSystem);
+
         if (USE_LIGHTING && this.terrain.getSunlight() != null) {
-        	modelLight = new Light(gl, 1 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
+            modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
+        	modelLight.setCameraPosition(this.camera.getPosition());
         	getWindow().addKeyListener(modelLight);
         }
-        
+
+        //Shader shader = new Shader(gl, "shaders/vertex_particle.glsl",
+         //       "shaders/fragment_particle.glsl");
+        //shader.use(gl);
+
         camera.init(gl);
+
+        RainSystem.init(gl);
 	}
 
 	@Override
