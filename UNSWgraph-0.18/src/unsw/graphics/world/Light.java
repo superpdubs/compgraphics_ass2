@@ -7,7 +7,6 @@ import com.jogamp.newt.event.KeyListener;
 import com.jogamp.opengl.GL3;
 
 import unsw.graphics.Shader;
-import unsw.graphics.Vector3;
 import unsw.graphics.geometry.Point3D;
 
 public class Light implements KeyListener{
@@ -18,9 +17,7 @@ public class Light implements KeyListener{
 	private boolean toggleLight;
 	private boolean torch;
 	private Point3D lightPosition;
-	private Point3D origLightPosition;
 	private Point3D cameraPosition;
-	private Point3D avatarPosition;
 	
 	/**
 	 * Light Constructor
@@ -28,13 +25,11 @@ public class Light implements KeyListener{
 	 * @param gl
 	 * @param lightIndex - 1 sunlight & null torch, 2 night & torch
 	 */
-	public Light(GL3 gl, int lightIndex, Point3D lightPosition, Point3D cameraPosition, Point3D avatarPosition) {
+	public Light(GL3 gl, int lightIndex, Point3D lightPosition, Point3D cameraPosition) {
 		this.lightIndex = lightIndex;
 		this.targetGL = gl;
 		this.lightPosition = lightPosition;
 		this.cameraPosition = cameraPosition;
-		this.avatarPosition = avatarPosition;
-		this.origLightPosition = lightPosition;
 		
 
 		activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
@@ -138,14 +133,6 @@ public class Light implements KeyListener{
 	
 	public Point3D getCameraPosition() {
 		return this.cameraPosition;
-	}
-	
-	public void setAvatarPosition(Point3D position) {
-		this.avatarPosition = position;
-	}
-	
-	public Point3D getAvatarPosition() {
-		return this.avatarPosition;
 	}
 	
 	@Override
