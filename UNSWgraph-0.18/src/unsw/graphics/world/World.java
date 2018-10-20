@@ -19,7 +19,25 @@ import unsw.graphics.geometry.Point2D;
 import unsw.graphics.geometry.Point3D;
 import unsw.graphics.geometry.TriangleMesh;
 
-
+/**
+ * COMP3421 Computer Graphics - UNSW
+ * 
+ * Assignment 2
+ * 
+ * Jie Chen 		- z5080307
+ * Peter Wang 		- z5063199
+ * Charlton Wong 	- z5112642
+ * 
+ * Implemented the following Extensions:
+ * 
+ * - Build a complex model or a model with walking animation or something beautiful or interesting for your avatar! (2..4 marks) 
+ * 		- Implemented in unsw.graphics.world/Character.java
+ * 		- Called via unsw.graphics.world/Camera.java
+ * 		- Model and textures included in Models and Textures folders. 
+ * - Make the sun move and change colour according to the time of day (2 marks) - unsw.graphics.world/Sun.java
+ * - Add rain using particle effects (4 marks)
+ * 		- Implemented in unsw.graphics.world/Rain.java
+ */
 
 /**
  * COMMENT: Comment Game 
