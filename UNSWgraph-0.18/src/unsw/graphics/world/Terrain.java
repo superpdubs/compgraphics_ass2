@@ -13,7 +13,6 @@ import unsw.graphics.CoordFrame3D;
 import unsw.graphics.Shader;
 import unsw.graphics.Texture;
 import unsw.graphics.Vector3;
-import unsw.graphics.geometry.Line3D;
 import unsw.graphics.geometry.Point2D;
 import unsw.graphics.geometry.Point3D;
 import unsw.graphics.geometry.TriangleMesh;
@@ -108,36 +107,9 @@ public class Terrain {
      * @return
      */
     public float altitude(float x, float z) {
-//        float altitude = 0;
-//
-        // Group Version
     	if (x < 0 || x > (width - 1) || z < 0 || z > (depth - 1)) {
     		return 0;
     	}
-//    	
-//        double xPoint = x;
-//        double zPoint = z;
-//        
-//        double xLeft = Math.floor(xPoint);
-//        double xRight =  Math.ceil(xPoint);
-//        
-//        double zLeft = Math.floor(zPoint);
-//        double zRight = Math.ceil(zPoint);
-//        
-//        double altLeftRight = altitudes[(int) xLeft][(int) zRight];
-//        double altLeftLeft = altitudes[(int) xLeft][(int) zLeft];
-//        
-//        double altRightLeft = altitudes[(int) xRight][(int) zLeft];
-//        double altRightRight = altitudes[(int) xRight][(int) zRight];
-//        
-//        double altLeft = (zPoint - zRight) / (zLeft - zRight) * (altLeftLeft - altLeftRight) + altLeftRight;
-//        double altRight = (zPoint - zRight) / (zLeft - zRight) * (altRightLeft - altRightRight) + altRightRight;
-//        
-//        altitude = (float) ((xPoint - xRight) / (xLeft - xRight) * (altLeft - altRight) + altRight);
-//        		
-//        return altitude;
-        
-        // Jie Version
 
         float altitudeZ = 0;
         float lowerX = (float) Math.floor(x);
@@ -160,8 +132,6 @@ public class Terrain {
             float polatedUpperY = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
 
             altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperY)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerY);
-
-           // System.out.println("polatedlowerX: " + polatedlowerX+ " polatedUpperZ: " + polatedupperX + " altitude: " + x + " " + z + "CAL:" + ((x - polatedlowerX)/(polatedupperX - polatedlowerX)) +    "yoyoyoyoyo:" + altitudeZ);
         } else {
             float polatedupperX =  ((z - lowerZ)/(upperZ - lowerZ)) * upperX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
             float polatedlowerX = ((z - lowerZ)/(upperZ - lowerZ)) * lowerX + ((upperZ - z)/(upperZ - lowerZ)) * upperX;
@@ -170,8 +140,6 @@ public class Terrain {
             float polatedLowerY = ((z - lowerZ)/(upperZ - lowerZ)) * altitudes[(int) lowerX][(int) upperZ] + ((upperZ - z)/(upperZ - lowerZ)) * altitudes[(int) upperX][(int) lowerZ];
 
             altitudeZ = (((x - polatedlowerX)/(polatedupperX - polatedlowerX)) * polatedUpperY)  + (((polatedupperX - x)/(polatedupperX - polatedlowerX)) * polatedLowerY);
-
-            //System.out.println("polatedlowerX: " + polatedlowerX + " polatedUpperZ: " + polatedupperX+ " altitude: " + x + " " + (z) + "x: " +  ((x - polatedlowerX)) + "yoyoyoyoyo:" + altitudeZ);
         }
 
         return altitudeZ;
@@ -211,19 +179,16 @@ public class Terrain {
     }
 
     public void makeTerrainMesh() {
-//        System.out.println("creating mesh... ");
         ArrayList<Point3D> points = new ArrayList<Point3D>();
         ArrayList<Point2D> texCoord = new ArrayList<Point2D>();
         ArrayList<Integer> indices = new ArrayList<Integer>();
         for (int i = 0; i < depth; i++) {
             for (int j = 0; j < width; j++) {
-//                System.out.println("Point3D: " + i + " " + altitudes[i][j] + " " + j);
+
                 points.add(new Point3D(i, altitudes[i][j], j));
                 texCoord.add(new Point2D(i, j));
 
-//                System.out.println("index:" + (j) + " " + i);
                 if (i == depth - 1 || j == width - 1) continue;
-
 
                 indices.add(i * width + j);
                 indices.add(i * width + 1 + j);
@@ -237,11 +202,7 @@ public class Terrain {
         }
         int counter = 0;
         for (Integer i: indices) {
-//            System.out.print(i + " ");
-
             counter++;
-
-//            if (counter % 3 == 0) System.out.println();
         }
         meshes = new TriangleMesh(points, indices, true, texCoord);
     }
@@ -268,9 +229,6 @@ public class Terrain {
         this.meshes.draw(gl, frame);
         for (Tree t: trees) {
             Shader.setPenColor(gl, Color.RED);
-            //Shader.setPenColor(gl, new Color(1f, 0.0f, 0.0f));
-            
-           // System.out.println(t.getPosition());
             t.getTreeModel().draw(gl, frame.translate(t.getPosition().getX(), t.getPosition().getY(), t.getPosition().getZ()).scale(0.2f, 0.2f, 0.2f));
 
         }
@@ -288,7 +246,6 @@ public class Terrain {
         }
 
         gl.glDisable(GL.GL_POLYGON_OFFSET_FILL);
-        //gl.glDisable(GL.GL_POLYGON_OFFSET_FILL);
     }
 
     public int getDepth() {
