@@ -81,6 +81,10 @@ public class Camera implements KeyListener {
     	if (!FirstPersonCam) player.drawCharacter(gl);
     }
     
+    public void destroy(GL3 gl) {
+    	player.destroy(gl);
+    }
+    
     @Override
     public void keyPressed(KeyEvent e) {
     	float newX, newY, newZ;
