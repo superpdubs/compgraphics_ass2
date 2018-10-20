@@ -87,8 +87,20 @@ vec4 torch( vec4 input_color, mat4 view_matrix, vec4 viewPosition, float k,
 
     float d = length((view_matrix*vec4(lightPos,1) - viewPosition).xyz);
 
-    float attenuation = 1.0 / (1.0 + k * pow(d, 2));
-
+    float spotlightConeAngle = 4;
+    vec3 conedirection = normalize(-viewPosition.xyz);
+    vec3 raydirection = -s;
+    
+    float lightToSurfaceAngle = acos(dot(raydirection, conedirection));
+    
+    float attenuation = 0.0;
+    
+    if (lightToSurfaceAngle > spotlightConeAngle) {
+        attenuation = 0.0;
+    } else {
+        attenuation = 1.0 / (1.0 + k * pow(d, 2));
+    }
+    
     vec3 intensity = ambient + attenuation*diffuse;
     
     return vec4(intensity,1)*input_color;
