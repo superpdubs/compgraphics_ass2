@@ -118,7 +118,7 @@ public class Sun implements KeyListener {
 	public void keyPressed(KeyEvent e) {		
         switch(e.getKeyCode()) {
         //Night and Day toggle
-        case KeyEvent.VK_V:
+        case KeyEvent.VK_CLOSE_BRACKET:
         	useSun ^= true;
         	if (useSun) {
         		System.out.println("DayNight Cycle activated");

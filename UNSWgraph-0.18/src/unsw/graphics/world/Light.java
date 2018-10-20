@@ -189,7 +189,7 @@ public class Light implements KeyListener{
             break;
             
         // Toggle Torch
-        case KeyEvent.VK_CLOSE_BRACKET:
+        case KeyEvent.VK_BACK_SLASH:
         	torch = !torch;
             break;
         	        
