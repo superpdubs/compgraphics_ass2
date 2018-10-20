@@ -71,23 +71,6 @@ public class World extends Application3D implements MouseListener {
         
         CoordFrame3D frame = CoordFrame3D.identity();
 
-        if (useCamera) {
-            camera.setView(gl);
-        } else {
-            frame = CoordFrame3D.identity()
-                    .translate(-3, 0.0f, -9f)
-                    .rotateX(rotateX)
-                    .rotateY(rotateY)
-                    .scale(1.0f, 1.0f, 1.0f);
-        }
-        
-        Shader.setInt(gl, "tex", 0);
-        gl.glActiveTexture(GL.GL_TEXTURE0);
-        gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getId());
-
-        Shader.setPenColor(gl, Color.GREEN);
-
-        terrain.drawTerrain(gl, frame);
 
         RainSystem.display(gl, camera.getViewFrame());
         modelLight.setCameraPosition(this.camera.getPosition());
@@ -109,8 +92,29 @@ public class World extends Application3D implements MouseListener {
         	modelLight.torchOn();
         } else {
         	modelLight.torchOff();
-        }        
-	}
+        }
+
+
+        if (useCamera) {
+            camera.setView(gl);
+        } else {
+            frame = CoordFrame3D.identity()
+                    .translate(-3, 0.0f, -9f)
+                    .rotateX(rotateX)
+                    .rotateY(rotateY)
+                    .scale(1.0f, 1.0f, 1.0f);
+        }
+
+
+        Shader.setInt(gl, "tex", 0);
+        gl.glActiveTexture(GL.GL_TEXTURE0);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getId());
+
+        Shader.setPenColor(gl, Color.GREEN);
+
+        terrain.drawTerrain(gl, frame);
+
+    }
 
     public Terrain getTerrain() {
         return terrain;

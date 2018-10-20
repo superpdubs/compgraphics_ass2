@@ -153,7 +153,7 @@ public class Light implements KeyListener{
 	 */
 	public void torchOn() {
 		// test torch light
-		Shader.setPoint3D(this.targetGL, "torchLightPos", this.cameraPosition.translate(0, -0.15f, 0));
+		Shader.setPoint3D(this.targetGL, "torchLightPos", this.cameraPosition.translate(0, 0.15f, 0f));
         Shader.setColor(this.targetGL, "torchLightIntensity", Color.WHITE);
         Shader.setColor(this.targetGL, "torchAmbientIntensity", new Color(0.7f, 0.7f, 0.7f));
 		Shader.setFloat(this.targetGL, "k", 0.5f);
