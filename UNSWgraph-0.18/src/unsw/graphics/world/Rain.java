@@ -1,4 +1,4 @@
-package unsw.graphics.examples;
+package unsw.graphics.world;
 
 import java.awt.Color;
 import java.util.Random;
@@ -28,7 +28,7 @@ import static com.jogamp.opengl.GL.GL_BLEND;
 public class Rain implements KeyListener {
 
     private static final int MAX_PARTICLES = 2000; // max number of particles
-    private Particle[] particles = new Particle[MAX_PARTICLES];
+    private Particle[] particles;
 
     // Set when the particles first burst
     private boolean burst = false;
@@ -50,8 +50,16 @@ public class Rain implements KeyListener {
     private int positionsName;
     private int colorsName;
 
+    private int width;
+    private int depth;
+
     private Shader shader;
 
+    public Rain(int width, int depth) {
+        this.width = width;
+        this.depth = depth;
+        particles = new Particle[MAX_PARTICLES];
+    }
 
 
     public void init(GL3 gl) {
@@ -109,6 +117,7 @@ public class Rain implements KeyListener {
         gl.glDisable(GL.GL_DEPTH_TEST);
         gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
         shader.use(gl);
+
         //gl.glEnable(GL_BLEND);
         Shader.setPenColor(gl, Color.WHITE);
 
@@ -144,7 +153,7 @@ public class Rain implements KeyListener {
         gl.glActiveTexture(GL.GL_TEXTURE0);
         gl.glBindTexture(GL2.GL_TEXTURE_2D, texture.getId());
 
-        CoordFrame3D frame = CoordFrame3D.identity().translate(0, 10, -0);
+        CoordFrame3D frame = CoordFrame3D.identity().translate(0, 10, 0);
         Shader.setModelMatrix(gl, frame.getMatrix());
         gl.glDrawArrays(GL.GL_POINTS, 0, particles.length);
 
@@ -204,8 +213,8 @@ public class Rain implements KeyListener {
         public void burst() {
             // Set the initial position
             x = y = z = 0.0f;
-            x = rand.nextFloat() * 3;
-            z = rand.nextFloat() * 3;
+            x = rand.nextFloat() * width;
+            z = rand.nextFloat() * depth;
             // Generate a random speed and direction in polar coordinate, then
             // resolve
             // them into x and y.

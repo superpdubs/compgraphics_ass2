@@ -14,7 +14,7 @@ import unsw.graphics.CoordFrame3D;
 import unsw.graphics.Matrix4;
 import unsw.graphics.Shader;
 import unsw.graphics.Texture;
-import unsw.graphics.examples.Rain;
+import unsw.graphics.world.Rain;
 import unsw.graphics.geometry.Point2D;
 import unsw.graphics.geometry.Point3D;
 import unsw.graphics.geometry.TriangleMesh;
@@ -46,7 +46,7 @@ public class World extends Application3D implements MouseListener {
     public World(Terrain terrain){
     	super("Assignment 2", 800, 600);
         this.terrain = terrain;
-        this.RainSystem = new Rain();
+        this.RainSystem = new Rain(terrain.getWidth(), terrain.getDepth());
         this.camera = new Camera(this);
         useCamera = true;
        // setBackground(Color.BLACK);
@@ -76,6 +76,7 @@ public class World extends Application3D implements MouseListener {
 
        // modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
 
+        RainSystem.display(gl);
         CoordFrame3D frame = CoordFrame3D.identity();
 
         if (useCamera) {
@@ -92,7 +93,6 @@ public class World extends Application3D implements MouseListener {
         Shader.setPenColor(gl, Color.GREEN);
         terrain.drawTerrain(gl, frame);
 
-        RainSystem.display(gl);
         if (modelLight.getToggle()) {
             modelLight = new Light(gl, 2 , this.terrain.getSunlight().asPoint3D(), this.camera.getPosition());
             modelLight.setCameraPosition(this.camera.getPosition());
