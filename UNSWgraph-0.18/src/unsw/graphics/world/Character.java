@@ -45,14 +45,14 @@ public class Character {
     	
     	this.animLength = new ArrayList<Integer>();
     	animLength.add(0, 1);	//walk start
-    	animLength.add(1, 17);	//walk mid
-    	animLength.add(2, 18);	//walk mid
-    	animLength.add(3, 32);	//walk end
-    	animLength.add(4, 33);	//slash start
-    	animLength.add(5, 43);	//slash end
+    	animLength.add(1, 11);	//walk mid
+    	animLength.add(2, 12);	//walk mid
+    	animLength.add(3, 22);	//walk end
+    	animLength.add(4, 23);	//slash start
+    	animLength.add(5, 29);	//slash end
     	
     	try {
-    		body = new TriangleMesh("res/models/MadBunny/madbunny_walk00.ply");
+    		body = new TriangleMesh("res/models/MadBunny_midRes/madbunny_walk00.ply");
     	} catch (Exception e) {
             System.out.println("Exception occured loading character model");
         }
@@ -67,7 +67,7 @@ public class Character {
         		frameNum = "" + i;
         	}
 	        try {
-            	String modelPath = "res/models/MadBunny/madbunny_walk" + frameNum + ".ply";
+            	String modelPath = "res/models/MadBunny_midRes/madbunny_walk" + frameNum + ".ply";
 	            walk.add(i, new TriangleMesh(modelPath, true, true));
 	        } catch (Exception e) {
 	        	System.out.println(walk.size());
@@ -86,7 +86,7 @@ public class Character {
         		frameNum = "" + i;
         	}
 	        try {
-            	modelPath = "res/models/MadBunny/madbunny_slash" + frameNum + ".ply";
+            	modelPath = "res/models/MadBunny_midRes/madbunny_slash" + frameNum + ".ply";
 	            walk.add(n, new TriangleMesh(modelPath, true, true));
 	        } catch (Exception e) {
 	            System.out.println("Exception occured loading character model");
@@ -212,13 +212,13 @@ public class Character {
     	this.isWalking = true;
     	animCooldown = 8;
     	
-    	if (!isSlashing) animSpeed = 2;
+    	if (!isSlashing) animSpeed = 3;
     }
     
     public void isSlashing() {
     	this.isSlashing = true;
     	curAnim = animLength.get(4);
-    	animSpeed = 3;
+    	animSpeed = 4;
     }
     
     public void resetAnimation() {
