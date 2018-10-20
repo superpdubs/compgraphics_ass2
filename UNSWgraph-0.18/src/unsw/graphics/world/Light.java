@@ -86,15 +86,13 @@ public class Light implements KeyListener{
         Shader.setColor(this.targetGL, "envAmbientIntensity", new Color(0.1f, 0.1f, 0.1f));
 		
         // Set the material properties
-        Shader.setColor(this.targetGL, "envAmbientCoeff", new Color(0,0,200));
+        Shader.setColor(this.targetGL, "envAmbientCoeff", new Color(0, 0, 1f));
         Shader.setColor(this.targetGL, "envDiffuseCoeff", new Color(0.3f, 0.3f, 0.3f));
         Shader.setColor(this.targetGL, "envSpecularCoeff", new Color(0.1f, 0.1f, 0.1f));
         Shader.setFloat(this.targetGL, "envPhongExp", 8f);
 	}
 	
-	public void setLight(Point3D lightPos, Color lightInt, Color AmbInt, Color AmbCoeff, Color DiffCoeff, Color SpecCoeff, float PhongExp) {    
-		System.out.println("Test");
-		
+	public void setLight(Point3D lightPos, Color lightInt, Color AmbInt, Color AmbCoeff, Color DiffCoeff, Color SpecCoeff, float PhongExp) {    		
 		//Implement Lighting/Nightlight
 		Shader.setPoint3D(this.targetGL, "envLightPos", lightPos);
 		Shader.setColor(this.targetGL, "envLightIntensity", lightInt);

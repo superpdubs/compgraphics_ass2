@@ -48,7 +48,7 @@ public class World extends Application3D implements MouseListener {
         this.terrain = terrain;
         
         this.camera = new Camera(this);
-        this.sun = new Sun();
+        this.sun = new Sun(terrain.getWidth(), 2000);
         useCamera = true;
     }
    
