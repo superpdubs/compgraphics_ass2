@@ -16,8 +16,6 @@ import unsw.graphics.Shader;
 import unsw.graphics.Texture;
 import unsw.graphics.world.Rain;
 import unsw.graphics.geometry.Point2D;
-import unsw.graphics.geometry.Point3D;
-import unsw.graphics.geometry.TriangleMesh;
 
 /**
  * COMP3421 Computer Graphics - UNSW
@@ -34,15 +32,10 @@ import unsw.graphics.geometry.TriangleMesh;
  * 		- Implemented in unsw.graphics.world/Character.java
  * 		- Called via unsw.graphics.world/Camera.java
  * 		- Model and textures included in Models and Textures folders. 
- * - Make the sun move and change colour according to the time of day (2 marks) - unsw.graphics.world/Sun.java
+ * - Make the sun move and change colour according to the time of day (2 marks) 
+ * 		- Implemented in unsw.graphics.world/Sun.java
  * - Add rain using particle effects (4 marks)
  * 		- Implemented in unsw.graphics.world/Rain.java
- */
-
-/**
- * COMMENT: Comment Game 
- *
- * @author malcolmr
  */
 public class World extends Application3D implements MouseListener {
 
@@ -55,7 +48,6 @@ public class World extends Application3D implements MouseListener {
     private static final int ROTATION_SCALE = 1;
     private static final boolean USE_LIGHTING = true;
 
-    private TriangleMesh model;
     private Texture texture;
     private Light modelLight;
     private Sun sun;
@@ -88,7 +80,6 @@ public class World extends Application3D implements MouseListener {
         super.display(gl);        
         
         CoordFrame3D frame = CoordFrame3D.identity();
-
 
         RainSystem.display(gl, camera.getViewFrame());
         modelLight.setCameraPosition(this.camera.getPosition());
@@ -142,6 +133,7 @@ public class World extends Application3D implements MouseListener {
 	public void destroy(GL3 gl) {
 		super.destroy(gl);
 		
+		//TO DO: destroy on all children
 	}
 
 	@Override

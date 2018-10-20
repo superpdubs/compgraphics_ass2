@@ -3,15 +3,10 @@ package unsw.graphics.world;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.ObjectUtils;
-import unsw.graphics.Shader;
 import unsw.graphics.Vector3;
-import unsw.graphics.Vector4;
-import unsw.graphics.geometry.Line3D;
 import unsw.graphics.geometry.Point2D;
 import unsw.graphics.geometry.Point3D;
 import unsw.graphics.geometry.TriangleMesh;
-import unsw.graphics.scene.PolygonalSceneObject;
 
 /**
  * Class Road using the extrusion of the specific set of splines, and produces and mesh to be drawn
