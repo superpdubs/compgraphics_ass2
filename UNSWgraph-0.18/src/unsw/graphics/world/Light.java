@@ -12,7 +12,6 @@ import unsw.graphics.geometry.Point3D;
 public class Light implements KeyListener{
 
 	private Shader activeShader;
-	private int lightIndex;
 	private GL3 targetGL;
 	private boolean toggleLight;
 	private boolean torch;
@@ -26,12 +25,10 @@ public class Light implements KeyListener{
 	 * @param lightIndex - 1 sunlight & null torch, 2 night & torch
 	 */
 	public Light(GL3 gl, int lightIndex, Point3D lightPosition, Point3D cameraPosition) {
-		this.lightIndex = lightIndex;
 		this.targetGL = gl;
 		this.lightPosition = lightPosition;
 		this.cameraPosition = cameraPosition;
 		
-
 		activeShader = new Shader(this.targetGL, "shaders/vertex_tex_phong.glsl", "shaders/fragment_combo.glsl");
 		activeShader.use(targetGL);
 
@@ -115,7 +112,7 @@ public class Light implements KeyListener{
 	 * @param PhongExp
 	 */
 	public void setLight(Point3D lightPos, Color lightInt, Color AmbInt, Color AmbCoeff, Color DiffCoeff, Color SpecCoeff, float PhongExp) {    		
-		//Implement Lighting/Nightlight
+		//Implement Lighting
 		Shader.setPoint3D(this.targetGL, "envLightPos", lightPos);
 		Shader.setColor(this.targetGL, "envLightIntensity", lightInt);
 		Shader.setColor(this.targetGL, "envAmbientIntensity", AmbInt);
@@ -140,7 +137,7 @@ public class Light implements KeyListener{
 	 */
 	public void torchOn() {
 		// test torch light
-		Shader.setPoint3D(this.targetGL, "torchLightPos", this.cameraPosition.translate(0, 0, 0));
+		Shader.setPoint3D(this.targetGL, "torchLightPos", this.cameraPosition.translate(0, -0.15f, 0));
         Shader.setColor(this.targetGL, "torchLightIntensity", Color.WHITE);
         Shader.setColor(this.targetGL, "torchAmbientIntensity", new Color(0.7f, 0.7f, 0.7f));
 		Shader.setFloat(this.targetGL, "k", 0.5f);
